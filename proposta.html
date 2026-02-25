@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta de Colabora&ccedil;&atilde;o – Ocean Alive</title>
+<style>
+:root {
+    --ocean-dark: #0A1628;
+    --ocean-mid: #1A2D48;
+    --pacific: #1A6B5A;
+    --pacific-deep: #0E4D3D;
+    --sand: #F5F0E8;
+    --sand-dark: #E8E0D0;
+    --parchment: #FAF8F4;
+    --ink: #1A1A1A;
+    --ink-light: #3A3A3A;
+    --ink-faint: #6A6A5A;
+    --cyan: #5ED4CE;
+    --coral: #E8967E;
+    --border: rgba(107,61,46,0.15);
+    --teal-bg: rgba(26,107,90,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'EB Garamond','Georgia',serif; background:var(--parchment); color:var(--ink); line-height:1.75; font-size:16.5px; }
+.container { max-width:820px; margin:0 auto; padding:2.5rem 2rem 4rem; }
+
+.doc-header { border-bottom:3px solid var(--pacific); padding-bottom:2rem; margin-bottom:2.5rem; }
+.doc-label { font-family:'Courier New',monospace; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--pacific); margin-bottom:0.5rem; }
+.doc-title { font-size:2rem; font-weight:700; color:var(--ocean-dark); line-height:1.25; margin-bottom:0.5rem; }
+.doc-subtitle { font-size:1rem; color:var(--ink-light); font-style:italic; margin-bottom:1rem; }
+.doc-meta { font-size:0.82rem; color:var(--ink-faint); font-family:'Courier New',monospace; }
+
+.section { margin-bottom:2.5rem; }
+.section h2 { font-size:1.3rem; font-weight:700; color:var(--ocean-dark); margin-bottom:0.75rem; border-bottom:1px solid var(--border); padding-bottom:0.4rem; }
+.section h3 { font-size:1.05rem; font-weight:700; color:var(--pacific-deep); margin:1.2rem 0 0.5rem; }
+.section p { margin-bottom:0.85rem; text-align:justify; hyphens:auto; }
+
+.ocean-box { background:linear-gradient(135deg,#0D1E35,#162C4A); color:#E8E4DC; padding:1.4rem 1.6rem; border-radius:6px; margin:1.2rem 0; }
+.ocean-box h4 { color:var(--cyan); font-size:0.9rem; margin-bottom:0.5rem; font-family:'Courier New',monospace; letter-spacing:0.05em; text-transform:uppercase; }
+.ocean-box p { color:#E8E4DC; margin-bottom:0.5rem; font-size:0.93rem; }
+.ocean-box p:last-child { margin-bottom:0; }
+.ocean-box strong { color:#fff; }
+
+.green-box { background:#0F5545; color:#E8E4DC; padding:1.4rem 1.6rem; border-radius:6px; margin:1.2rem 0; }
+.green-box h4 { color:var(--cyan); font-size:0.9rem; margin-bottom:0.5rem; font-family:'Courier New',monospace; letter-spacing:0.05em; text-transform:uppercase; }
+.green-box p { color:#E8E4DC; margin-bottom:0.5rem; font-size:0.93rem; }
+.green-box p:last-child { margin-bottom:0; }
+.green-box strong { color:#fff; }
+
+.sand-box { background:var(--sand); border-left:4px solid var(--pacific); padding:1.1rem 1.3rem; margin:1.2rem 0; border-radius:0 6px 6px 0; }
+.sand-box h4 { color:var(--pacific); font-size:0.88rem; margin-bottom:0.4rem; }
+.sand-box p { font-size:0.9rem; margin-bottom:0.4rem; }
+.sand-box p:last-child { margin-bottom:0; }
+
+.law-box { background:var(--teal-bg); border:1px solid rgba(26,107,90,0.2); border-left:4px solid var(--pacific); padding:1.1rem 1.3rem; margin:1.2rem 0; border-radius:0 6px 6px 0; }
+.law-box h4 { color:var(--pacific-deep); font-size:0.82rem; font-family:'Courier New',monospace; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:0.4rem; }
+.law-box p { font-size:0.88rem; margin-bottom:0.4rem; }
+.law-box p:last-child { margin-bottom:0; }
+.law-ref { font-family:'Courier New',monospace; font-size:0.82rem; color:var(--pacific-deep); font-weight:700; }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin:1.2rem 0; }
+.col-card { background:var(--sand); border:1px solid var(--border); border-radius:6px; padding:1rem 1.2rem; }
+.col-card h4 { color:var(--pacific); font-size:0.82rem; margin-bottom:0.3rem; font-family:'Courier New',monospace; letter-spacing:0.05em; text-transform:uppercase; }
+.col-card p { font-size:0.88rem; margin-bottom:0.3rem; text-align:left; }
+.col-card p:last-child { margin-bottom:0; }
+
+table { width:100%; border-collapse:collapse; margin:1.2rem 0; font-size:0.86rem; }
+th { background:var(--ocean-dark); color:#E8E4DC; padding:0.45rem 0.65rem; text-align:left; font-size:0.73rem; font-family:'Courier New',monospace; letter-spacing:0.05em; text-transform:uppercase; }
+td { padding:0.45rem 0.65rem; border-bottom:1px solid var(--border); vertical-align:top; }
+tr:nth-child(even) td { background:var(--sand); }
+
+.doc-footer { margin-top:3rem; padding-top:1.5rem; border-top:2px solid var(--pacific); text-align:center; font-size:0.8rem; color:var(--ink-faint); }
+
+@media (max-width:700px) {
+    .container { padding:1rem; }
+    .doc-title { font-size:1.6rem; }
+    .two-col { grid-template-columns:1fr; }
+}
+@media print {
+    body { font-size:10.5pt; }
+    .container { max-width:100%; padding:0; }
+}
+
+.header-logo { display:block; max-width:220px; height:auto; margin-bottom:1.2rem; }
+</style>
+</head>
+<body>
+<div class="container">
+<a href="index.html" style="font-family:'Courier New',monospace;font-size:0.7rem;color:var(--pacific);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;opacity:.7;display:inline-block;margin-bottom:1rem" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">← Home</a>
+
+<header class="doc-header">
+    <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAADJKADAAQAAAABAAABTgAAAAD/7QA4UGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAAA4QklNBCUAAAAAABDUHYzZjwCyBOmACZjs+EJ+/8AAEQgBTgMkAwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/bAEMAAQEBAQEBAgEBAgMCAgIDBAMDAwMEBgQEBAQEBgcGBgYGBgYHBwcHBwcHBwgICAgICAkJCQkJCwsLCwsLCwsLC//bAEMBAgICAwMDBQMDBQsIBggLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLC//dAAQAM//aAAwDAQACEQMRAD8A/v4ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0P7+KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9H+/iiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/S/v4ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0/7+KKKKACiiigAooooAKKKKACiiigAooooAKKKKACsO/wDEei6Zqlto2oXCw3F2GMKtxu24yAemea3K8n+MXwzg+JvhR9LhlNrf27edaXKHa8cig4wRzg5pq19TqwdOjOtGGIlyweje9vO3ZdfI9Yor8jr39pX9pP4H3beGPGmnrqC252rLMuAyjod6jJ/E1zurf8FE/iVOphstLtLVsY3LlyPwYYrZYeb2Ps14cZtNqVDknB7SUlZrv3P2OnuILaIz3LrGi8lmOAPx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sijnDZ+4D0IIzjoRXqnxY/a98EfDm/sPg78F4I5bl3W3iig5+ZjjnHNdOHw86svZ4aN337fM8nPuK8myDDywmSJe0ejqbteSfV+miP0s0TRdN8PaVBoukRCG2tkCIi8AAVqVzfg99Wk8MWMmujF40KmUejGukrypKzaPytzcnzSerCiiikIKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP//V/v4ooooAKKKKACiiigAooooAKKKKACiiigDg/iZ4A0X4n+CNQ8E69GJLe+iaPkfdJGAR7iv5QfjB8M9d+Enj6/8ABPiCPy5rWQgcYDLk4I9jX9fVfm3/AMFAP2XD8WPCX/CwPCFuG1rTFJkVR800XXHuRjj616GAxHs58stmfl/idwo8zwSxmGjetS6dZR6r1W6+fc/JP9kH9o/Uf2fviNDfXLs+j3pEd5CDwVzww9x/Wv6cvDHibQ/GWg2vibw5cLdWV5GJIpUOQysMiv43J4JrSdoJgVdDgg9jX6OfsR/toXXwZ1FPAfjqRpvD1y3ysT81u57j/Z9RxXdj8J7Re0hv+Z+d+G3HKy2p/ZuPlahJ+639hv8A9tf4PU/olorI0LXtH8TaTBrug3CXVpcoHjljOVZTyCDWvXgn9JxkpJSi7phRRRQMKKKKACiiigArwr9ov45eGf2ffhhfePvEUiho1KW8RODLMR8qiuy+J/xS8F/B/wAJXPjTx1draWVspJJPzMf7qjuT2Ffytfth/tX+Jv2mfHT37lrbRLQlLO1zkKv94+rHjJx2r2MoyuWKqJyXuLd/ofI8WcUUsqw7jB3rSXurt5vyX4lXXP23fjjf+JZ9estR8kySlwADwOw61+m37NH/AAVX8OzaZa+FvjZE0V1kJ9tT7n1I7D8a/AV/vVVBx0r7mtlGFrw5JRt5rRn49lnFuZ4Oo6karknupap/5fI/s1uf+Gcfj7pMc8smnaxHOMoyOu/J/wB09frXz143/wCCefgPV5GufBupT6fI/UXAE0Y+gUIf1r+Xbw78QfGfg2/TUfDWoz2kyHKsjkYxX0E/7dX7TfkLbL4m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MTLSnFR/H+vuPocF4b5dSd605T/Bfhr+J+Z3wk/4JZ/s8/Dxo77xMsviK7TB3XHyR5HqgJUj6iv0T8OeF/DnhDTU0bwvYwafax/dit4xGg/BQBW9RXh4jGV67vWm2faYHK8Jg48uGpKPov13CiiiuY7wooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/0f7+KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9L+/iiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/T/v4ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/2Q==" alt="Ocean Alive" class="header-logo">
+    <div class="doc-label">Proposta de Colabora&ccedil;&atilde;o &middot; Ver&atilde;o 2026</div>
+    <h1 class="doc-title">Pol&iacute;tica, Governan&ccedil;a &amp; Carbono Azul<br>Uma Proposta para a Ocean Alive</h1>
+    <div class="doc-subtitle">Como a ci&ecirc;ncia da conserva&ccedil;&atilde;o se torna infraestrutura de governan&ccedil;a, e porque &eacute; que este &eacute; o momento certo</div>
+    <div class="doc-meta">
+        Fevereiro 2026
+    </div>
+</header>
+
+<!-- 1 – OBJETIVOS -->
+<div class="section">
+    <h2>1. Objetivos</h2>
+
+    <p>Construir a arquitetura pol&iacute;tica que liga os dados de conserva&ccedil;&atilde;o e o modelo comunit&aacute;rio da Ocean Alive aos quadros regulat&oacute;rios que determinam se as pradarias marinhas e os sapais s&atilde;o protegidos ou apenas estudados. Especificamente:</p>
+
+    <div class="two-col">
+        <div class="col-card">
+            <h4>Tradu&ccedil;&atilde;o Pol&iacute;tica</h4>
+            <p>Converter dados de monitoriza&ccedil;&atilde;o ecol&oacute;gica e resultados de conserva&ccedil;&atilde;o comunit&aacute;ria em instrumentos prontos para governan&ccedil;a: notas pol&iacute;ticas (policy briefs), submiss&otilde;es formais, estrat&eacute;gia jur&iacute;dica e materiais de conformidade regulat&oacute;ria alinhados com a legisla&ccedil;&atilde;o portuguesa e europeia.</p>
+        </div>
+        <div class="col-card">
+            <h4>Arquitetura de Financiamento</h4>
+            <p>Candidaturas a financiamento UE (Horizon Europe, LIFE, JPI Oceans), financiamento nacional portugu&ecirc;s (Fundo Ambiental, Fundo Azul) e estrat&eacute;gia de parcerias empresariais que posiciona a conformidade ESG como receita, n&atilde;o doa&ccedil;&atilde;o.</p>
+        </div>
+        <div class="col-card">
+            <h4>Entrada no Mercado de Carbono</h4>
+            <p>Estruturar o caminho desde os dados de quantifica&ccedil;&atilde;o de pradarias + sapais at&eacute; cr&eacute;ditos de carbono azul verificados no Mercado Volunt&aacute;rio de Carbono portugu&ecirc;s (DL 4/2024) e no Regulamento de Certifica&ccedil;&atilde;o de Remo&ccedil;&otilde;es de Carbono da UE.</p>
+        </div>
+        <div class="col-card">
+            <h4>Inclus&atilde;o na Governan&ccedil;a</h4>
+            <p>Desenvolver o quadro jur&iacute;dico e estrat&eacute;gico para a inclus&atilde;o formal das Guardi&atilde;s do Mar na governan&ccedil;a do plano de gest&atilde;o Natura 2000, utilizando instrumentos de direito constitucional e administrativo portugu&ecirc;s.</p>
+        </div>
+    </div>
+</div>
+
+<!-- 2 – PRIORIDADES COMPREENDIDAS -->
+<div class="section">
+    <h2>2. Prioridades Compreendidas</h2>
+
+    <p>Da nossa conversa:</p>
+
+    <div class="green-box">
+        <h4>#1 &mdash; Pol&iacute;tica e Governan&ccedil;a Participativa</h4>
+        <p>O plano de gest&atilde;o Natura 2000 do Estu&aacute;rio do Sado ser&aacute; publicado em breve, sem prote&ccedil;&otilde;es adequadas para as pradarias marinhas. As pescadoras permanecem exclu&iacute;das da tomada de decis&atilde;o. A confian&ccedil;a da comunidade no governo &eacute; baixa. Esta lacuna de governan&ccedil;a &eacute; relacional, n&atilde;o apenas institucional.</p>
+    </div>
+
+    <div class="green-box">
+        <h4>#2 &mdash; Grupo Espanhol de Quantifica&ccedil;&atilde;o</h4>
+        <p>Um grupo de investiga&ccedil;&atilde;o espanhol est&aacute; a quantificar as pradarias marinhas: stocks de carbono, taxas de sequestro, avalia&ccedil;&atilde;o de servi&ccedil;os ecossist&eacute;micos. Estes dados s&atilde;o a mat&eacute;ria-prima para a metodologia de cr&eacute;ditos de carbono, certifica&ccedil;&atilde;o CRCF e candidaturas a financiamento. Compreender o &acirc;mbito e a metodologia &eacute; essencial antes de construir a camada pol&iacute;tica em torno dos seus resultados.</p>
+    </div>
+
+    <div class="green-box">
+        <h4>#3 &mdash; De Pradarias Marinhas a Constru&ccedil;&atilde;o de Ecossistemas</h4>
+        <p>A Ocean Alive est&aacute; a evoluir para al&eacute;m do trabalho isolado com pradarias marinhas, rumo a uma abordagem ecossist&eacute;mica: sapais, bancos de ostras, zonas ripar&iacute;colas. Vale de &Eacute;guas j&aacute; demonstra esta dire&ccedil;&atilde;o. Alinha-se diretamente com o Regulamento de Restaura&ccedil;&atilde;o da Natureza da UE, que exige metas a n&iacute;vel de ecossistema e n&atilde;o de esp&eacute;cie.</p>
+    </div>
+
+    <div class="green-box">
+        <h4>#4 &mdash; A Definir</h4>
+        <p>Esta prioridade emergir&aacute; do trabalho de ver&atilde;o. Possibilidades incluem estrat&eacute;gia de expans&atilde;o PALOP, desenvolvimento de parcerias empresariais, campanha nacional tipo Patagonia Blue Heart, replica&ccedil;&atilde;o do modelo na Ria de Aveiro, ou governan&ccedil;a a montante e qualidade da &aacute;gua. Intencionalmente aberto.</p>
+    </div>
+</div>
+
+<!-- 3 – VALOR E CONTRIBUIÇÃO DA OCEAN ALIVE -->
+<div class="section">
+    <h2>3. Valor e Contribui&ccedil;&atilde;o da Ocean Alive</h2>
+
+    <p>A Ocean Alive construiu algo raro: uma organiza&ccedil;&atilde;o de conserva&ccedil;&atilde;o com ci&ecirc;ncia, legitimidade comunit&aacute;ria, reconhecimento internacional e dados verificados. Pr&eacute;mio Natura 2000 da UE (2024, VP &Scaron;ef&ccaron;ovi&ccaron; atribuiu pessoalmente). Parceria institucional com a UNESCO. National Geographic Explorer. Co-restaura&ccedil;&atilde;o com a Patagonia. 190,91 ha mapeados em 29 pradarias. Mais de 20 ha restaurados. Mais de 25.000 kg de lixo marinho removido. Dezoito Guardi&atilde;s do Mar formadas em monitoriza&ccedil;&atilde;o GPS e recolha de dados cient&iacute;ficos. Quatro anos de dados cont&iacute;nuos de monitoriza&ccedil;&atilde;o.</p>
+
+    <p>O que existe &eacute; uma lacuna, n&atilde;o uma falha: a arquitetura pol&iacute;tica que liga os dados das pradarias &agrave; valora&ccedil;&atilde;o de carbono azul, os resultados de restaura&ccedil;&atilde;o &agrave;s metodologias de cr&eacute;ditos de carbono, e o modelo de conserva&ccedil;&atilde;o comunit&aacute;ria aos quadros regulat&oacute;rios europeus. A Ocean Alive afirma que o seu objetivo &eacute; &ldquo;produzir investiga&ccedil;&atilde;o que possa informar decis&otilde;es pol&iacute;ticas sobre a gest&atilde;o ambiental.&rdquo; Esta colabora&ccedil;&atilde;o visa construir a camada de tradu&ccedil;&atilde;o que torna isso poss&iacute;vel.</p>
+</div>
+
+<!-- 4 – PORQUÊ ESTE MOMENTO -->
+<div class="section">
+    <h2>4. Porqu&ecirc; Este Momento</h2>
+
+    <p>Tr&ecirc;s desenvolvimentos est&atilde;o a convergir em Portugal, criando uma janela pol&iacute;tica:</p>
+
+    <div class="ocean-box">
+        <h4>Mercado Volunt&aacute;rio de Carbono</h4>
+        <p>O <span class="law-ref">Decreto-Lei 4/2024</span> estabeleceu o Mercado Volunt&aacute;rio de Carbono (MVC) portugu&ecirc;s com foco expl&iacute;cito em solu&ccedil;&otilde;es baseadas na natureza e &ldquo;especial aten&ccedil;&atilde;o ao carbono azul e projetos florestais.&rdquo; O <span class="law-ref">DL 122/2024</span> criou a Ag&ecirc;ncia para o Clima (ApC), operacional desde janeiro de 2025, que supervisiona o MVC, o Fundo Ambiental, o Fundo Azul e o Fundo Social para o Clima. Em dezembro de 2025, o governo lan&ccedil;ou um programa bienal de restaura&ccedil;&atilde;o de pradarias marinhas com o objetivo expl&iacute;cito de desenvolver metodologias de cr&eacute;ditos de carbono.</p>
+        <p><strong>As pradarias mapeadas pela Ocean Alive s&atilde;o os dados sobre os quais esta metodologia ser&aacute; constru&iacute;da.</strong></p>
+    </div>
+
+    <div class="ocean-box">
+        <h4>Converg&ecirc;ncia Regulat&oacute;ria da UE</h4>
+        <p>Regulamento de Certifica&ccedil;&atilde;o de Remo&ccedil;&otilde;es de Carbono (CRCF, Reg. 2024/3012, adotado em novembro de 2024) certifica remo&ccedil;&otilde;es de carbono incluindo carbono azul na categoria &ldquo;carbon farming.&rdquo; Regulamento de Restaura&ccedil;&atilde;o da Natureza (em vigor) exige metas a n&iacute;vel ecossist&eacute;mico. Diretiva Green Claims (processo legislativo) exigir&aacute; subst&acirc;ncia&ccedil;&atilde;o de todas as alega&ccedil;&otilde;es ambientais por metodologia reconhecida. CSRD/ESRS (em vigor, faseado) obriga grandes empresas a reportar impactos e depend&ecirc;ncias na biodiversidade; a CMVM supervisiona em Portugal. Norma Europeia de Obriga&ccedil;&otilde;es Verdes (em vigor desde dezembro de 2024) exige impacto ambiental verificado; CMVM designada como autoridade portuguesa; restaura&ccedil;&atilde;o de pradarias/sapais qualifica como utiliza&ccedil;&atilde;o de receitas.</p>
+        <p><strong>Cada um destes instrumentos cria procura por exatamente o que a Ocean Alive produz.</strong></p>
+    </div>
+
+    <div class="ocean-box">
+        <h4>Financiamento de Investiga&ccedil;&atilde;o</h4>
+        <p>JPI Oceans Blue Carbon Knowledge Hub (lan&ccedil;ado em janeiro de 2024, liderado pela Irlanda, Portugal participante) publicou um convite conjunto de 5,3 milh&otilde;es de euros para ecossistemas de carbono azul. Horizon Europe e programa LIFE oferecem financiamento UE adicional. A n&iacute;vel nacional, o Fundo Ambiental e o Fundo Azul (ambos geridos pela ApC ao abrigo do <span class="law-ref">DL 122/2024</span>) s&atilde;o mecanismos de financiamento dispon&iacute;veis. A Taxa de Recursos H&iacute;dricos (ao abrigo da <span class="law-ref">Lei 58/2005</span>) compensa os custos ambientais de atividades que afetam os recursos h&iacute;dricos, podendo servir como fonte de financiamento para restaura&ccedil;&atilde;o.</p>
+    </div>
+</div>
+
+<!-- 5 – ÁREAS DE TRABALHO PROPOSTAS -->
+<div class="section">
+    <h2>5. &Aacute;reas de Trabalho Propostas</h2>
+
+    <h3>5.1 Pol&iacute;tica e Governan&ccedil;a</h3>
+    <p>Redigir notas pol&iacute;ticas ancoradas nos dados da Ocean Alive e na quantifica&ccedil;&atilde;o do grupo espanhol. Preparar submiss&otilde;es formais para a consulta p&uacute;blica do plano de gest&atilde;o Natura 2000. Mapear legisla&ccedil;&atilde;o portuguesa e europeia em rela&ccedil;&atilde;o aos resultados de conserva&ccedil;&atilde;o. Desenvolver estrat&eacute;gia jur&iacute;dica para inclus&atilde;o formal das Guardi&atilde;s do Mar na governan&ccedil;a, utilizando direitos participativos da Constitui&ccedil;&atilde;o, <span class="law-ref">Lei 83/95</span>, <span class="law-ref">Lei 19/2014</span> e <span class="law-ref">DL 4/2015</span>.</p>
+
+    <p>Primeiras a&ccedil;&otilde;es concretas: submiss&atilde;o formal &agrave; consulta do plano de gest&atilde;o documentando a extens&atilde;o mapeada (190,91 ha), amea&ccedil;as documentadas, aus&ecirc;ncia de prote&ccedil;&otilde;es espec&iacute;ficas para pradarias, e valor econ&oacute;mico dos servi&ccedil;os ecossist&eacute;micos. Registo das Guardi&atilde;s como consultoras formais ao abrigo dos direitos de audi&ecirc;ncia pr&eacute;via do <span class="law-ref">DL 4/2015</span>. Pedido de informa&ccedil;&atilde;o ambiental ao ICNF ao abrigo da <span class="law-ref">Lei 26/2016</span> para todos os relat&oacute;rios de monitoriza&ccedil;&atilde;o, avalia&ccedil;&otilde;es de habitats e registos de consulta (sem necessidade de declara&ccedil;&atilde;o de interesse; 50% de isen&ccedil;&atilde;o de taxas para ONGA).</p>
+
+    <h3>5.2 Mulheres do Sado</h3>
+    <p>As Guardi&atilde;s do Mar n&atilde;o s&atilde;o benefici&aacute;rias de projetos. S&atilde;o prestadoras de servi&ccedil;os ecossist&eacute;micos. Documentar o seu valor econ&oacute;mico mensur&aacute;vel, atrav&eacute;s de monitoriza&ccedil;&atilde;o de carbono azul, educa&ccedil;&atilde;o marinha e mariscagem sustent&aacute;vel, cria o quadro cont&aacute;bil necess&aacute;rio para mudar a conversa de governan&ccedil;a. Quando uma submiss&atilde;o pode afirmar &ldquo;As Guardi&atilde;s do Mar contribu&iacute;ram &euro;X em servi&ccedil;os ecossist&eacute;micos verificados para a economia de Set&uacute;bal em 2026,&rdquo; a exclus&atilde;o da governan&ccedil;a torna-se indefens&aacute;vel.</p>
+
+    <p>A legisla&ccedil;&atilde;o portuguesa suporta este posicionamento. Ao abrigo da <span class="law-ref">Lei 98/2021</span> (Lei do Clima) e da <span class="law-ref">Lei 19/2014</span>, um esquema de pagamento por servi&ccedil;os ecossist&eacute;micos dirigido &agrave;s comunidades que protegem o ecossistema &eacute; legalmente vi&aacute;vel. O Fundo Ambiental e o Fundo Azul s&atilde;o os mecanismos de financiamento. Ao abrigo do <span class="law-ref">DL 4/2024</span>, os projetos do MVC requerem monitoriza&ccedil;&atilde;o; a MRV comunit&aacute;ria atrav&eacute;s das Guardi&atilde;s &eacute; mais barata, mais consistente e mais leg&iacute;tima do que visitas peri&oacute;dicas de consultores. Estas mulheres tornam-se infraestrutura de um mercado nacional de carbono azul.</p>
+
+    <h3>5.3 Colabora&ccedil;&atilde;o com o Grupo Espanhol</h3>
+    <p>Uma vez identificado, a colabora&ccedil;&atilde;o estrutura-se em torno de uma divis&atilde;o clara: o grupo espanhol fornece a quantifica&ccedil;&atilde;o (stocks de SOC, taxas de sequestro, fluxo de GEE, biomassa, avalia&ccedil;&atilde;o de servi&ccedil;os ecossist&eacute;micos). A Ocean Alive fornece acesso ao campo, rela&ccedil;&otilde;es comunit&aacute;rias, monitoriza&ccedil;&atilde;o de longo prazo atrav&eacute;s das Guardi&atilde;s, conhecimento local e integra&ccedil;&atilde;o de sapais. Esta proposta acrescenta a camada de tradu&ccedil;&atilde;o pol&iacute;tica: converter dados de carbono em estrutura de metodologia para o MVC alinhada com o <span class="law-ref">DL 4/2024</span>, mapeamento de conformidade CRCF, input para o plano de gest&atilde;o Natura 2000, pacotes de relat&oacute;rios ESG corporativos (CSRD/ESRS) e candidaturas conjuntas a financiamento com pacotes de trabalho definidos.</p>
+
+    <p>Primeiros passos: confirmar institui&ccedil;&atilde;o, investigador respons&aacute;vel e &acirc;mbito atrav&eacute;s do Vasco. Mapear padr&otilde;es de medi&ccedil;&atilde;o contra o Suplemento de Zonas H&uacute;midas do IPCC, Verra VM0033 e requisitos do MVC (<span class="law-ref">DL 4/2024</span>). Formalizar partilha de dados, co-autoria e atribui&ccedil;&atilde;o de resultados pol&iacute;ticos. Estabelecer se a metodologia cobre sapais ou apenas pradarias; se apenas pradarias, a expans&atilde;o ecossist&eacute;mica da Prioridade #3 necessita de cobertura cient&iacute;fica adicional.</p>
+
+    <h3>5.4 Financiamento</h3>
+    <p>Apoiar a prepara&ccedil;&atilde;o de propostas para JPI Oceans Blue Carbon (5,3M&euro;), Horizon Europe, programa LIFE, Fundo Ambiental e Fundo Azul. Desenvolver estrat&eacute;gia de parcerias empresariais posicionando a conformidade ESG como receita. Ao abrigo da <span class="law-ref">Lei 98/2021</span>, a n&atilde;o considera&ccedil;&atilde;o do risco clim&aacute;tico nas decis&otilde;es de financiamento &eacute; uma viola&ccedil;&atilde;o dos deveres fiduci&aacute;rios. Empresas que investem em conserva&ccedil;&atilde;o de pradarias est&atilde;o a gerir risco, n&atilde;o a fazer contribui&ccedil;&otilde;es de caridade. O Guia de Sustentabilidade 2024 da CMVM orienta entidades supervisionadas para investimentos ambientais verificados. A Norma Europeia de Obriga&ccedil;&otilde;es Verdes faz da restaura&ccedil;&atilde;o de pradarias uma utiliza&ccedil;&atilde;o eleg&iacute;vel de receitas.</p>
+
+    <h3>5.5 Integra&ccedil;&atilde;o Ecossist&eacute;mica Mais Ampla</h3>
+    <p>A Prioridade #3 requer articula&ccedil;&atilde;o pol&iacute;tica: como &eacute; que os sapais (habitats Anexo I 1310, 1320, 1410, 1420), os bancos de ostras e as zonas ripar&iacute;colas se enquadram no mesmo quadro de carbono azul que as pradarias (habitats Anexo I 1110, 1140, 1150*). Como o modelo se replica entre s&iacute;tios (Sado, Ria Formosa, Ria de Aveiro). Como seria uma rede nacional de verifica&ccedil;&atilde;o de carbono azul em vez de projetos isolados. Ao abrigo do Regulamento de Restaura&ccedil;&atilde;o da Natureza, Portugal deve reportar resultados mensur&aacute;veis a n&iacute;vel de ecossistema; os dados multi-habitat da Ocean Alive s&atilde;o a base de evid&ecirc;ncia.</p>
+</div>
+
+<!-- 6 – QUADRO LEGAL -->
+<div class="section">
+    <h2>6. Quadro Legal</h2>
+
+    <p>A legisla&ccedil;&atilde;o portuguesa e europeia cont&eacute;m instrumentos que servem diretamente estas prioridades. Seguem-se as disposi&ccedil;&otilde;es mais acion&aacute;veis.</p>
+
+    <h3>6.1 Constitucional e Enquadramento</h3>
+
+    <div class="law-box">
+        <h4>Constitui&ccedil;&atilde;o da Rep&uacute;blica Portuguesa</h4>
+        <p>O ambiente &eacute; um direito constitucionalmente protegido. A ac&ccedil;&atilde;o popular para prote&ccedil;&atilde;o ambiental &eacute; um direito fundamental de participa&ccedil;&atilde;o pol&iacute;tica. Qualquer cidad&atilde;o, bem como associa&ccedil;&otilde;es, pode aceder ao judici&aacute;rio para proteger bens ambientais n&atilde;o suscet&iacute;veis de apropria&ccedil;&atilde;o individual.</p>
+    </div>
+    <div class="law-box">
+        <h4>Lei 19/2014 &mdash; Bases da Pol&iacute;tica de Ambiente</h4>
+        <p>Princ&iacute;pios de participa&ccedil;&atilde;o p&uacute;blica, preven&ccedil;&atilde;o, precau&ccedil;&atilde;o, poluidor-pagador, desenvolvimento sustent&aacute;vel. Decis&otilde;es pol&iacute;ticas que afetam bens ambientais devem envolver comunidades afetadas. Mandato legal para governan&ccedil;a participativa no Sado.</p>
+    </div>
+    <div class="law-box">
+        <h4>Lei 98/2021 &mdash; Lei do Clima</h4>
+        <p>Empresas privadas devem priorizar o equil&iacute;brio clim&aacute;tico e ambiental. Administradores devem considerar e divulgar riscos clim&aacute;ticos. <strong>A n&atilde;o considera&ccedil;&atilde;o do risco clim&aacute;tico nas decis&otilde;es de financiamento constitui viola&ccedil;&atilde;o dos deveres fiduci&aacute;rios.</strong> Avalia&ccedil;&atilde;o de impacto clim&aacute;tico obrigat&oacute;ria para legisla&ccedil;&atilde;o parlamentar e governamental. Elimina&ccedil;&atilde;o progressiva dos subs&iacute;dios a combust&iacute;veis f&oacute;sseis at&eacute; 2030.</p>
+    </div>
+
+    <h3>6.2 Direitos de Participa&ccedil;&atilde;o e Acesso a Informa&ccedil;&atilde;o</h3>
+
+    <div class="law-box">
+        <h4>Lei 83/95 &mdash; Ac&ccedil;&atilde;o Popular</h4>
+        <p>As ONGA t&ecirc;m legitimidade para intentar a&ccedil;&otilde;es contra atos <strong>ou omiss&otilde;es</strong> de entidades p&uacute;blicas ou privadas que amea&ccedil;am o ambiente. Omiss&otilde;es s&atilde;o juridicamente acion&aacute;veis: se o governo n&atilde;o proteger as pradarias e sapais no plano de gest&atilde;o Natura 2000, essa falha pode ser contestada. ONGA est&atilde;o isentas de custas judiciais.</p>
+    </div>
+    <div class="law-box">
+        <h4>Lei 26/2016 &mdash; Acesso a Informa&ccedil;&atilde;o Ambiental</h4>
+        <p>Todas as pessoas t&ecirc;m direito de acesso a informa&ccedil;&atilde;o ambiental. Sem necessidade de declarar interesse espec&iacute;fico. Autoridades p&uacute;blicas devem divulgar ativamente informa&ccedil;&atilde;o ambiental por via eletr&oacute;nica. 50% de isen&ccedil;&atilde;o de taxas para ONGA. Aplica&ccedil;&atilde;o imediata: solicitar todos os dados do ICNF sobre o s&iacute;tio Natura 2000 do Sado (relat&oacute;rios de monitoriza&ccedil;&atilde;o, avalia&ccedil;&otilde;es de habitats, esbo&ccedil;os do plano de gest&atilde;o, registos de consulta).</p>
+    </div>
+    <div class="law-box">
+        <h4>DL 4/2015 &mdash; C&oacute;digo do Procedimento Administrativo</h4>
+        <p>Partes afetadas t&ecirc;m direitos de audi&ecirc;ncia pr&eacute;via antes de decis&otilde;es administrativas. Pescadoras cujos meios de subsist&ecirc;ncia dependem da sa&uacute;de do estu&aacute;rio s&atilde;o partes afetadas. A exclus&atilde;o da governan&ccedil;a &eacute; juridicamente contest&aacute;vel.</p>
+    </div>
+    <div class="law-box">
+        <h4>DL 151-B/2013 &mdash; Avalia&ccedil;&atilde;o de Impacto Ambiental</h4>
+        <p>Qualquer projeto que afete s&iacute;tios Natura 2000 requer Avalia&ccedil;&atilde;o de Incid&ecirc;ncias. Consulta p&uacute;blica &eacute; obrigat&oacute;ria. <strong>Licen&ccedil;as concedidas sem consulta p&uacute;blica s&atilde;o inv&aacute;lidas.</strong> Se o plano de gest&atilde;o foi desenvolvido sem participa&ccedil;&atilde;o adequada, isso constitui uma vulnerabilidade jur&iacute;dica do pr&oacute;prio plano. A IGAMAOT tem acesso livre a instala&ccedil;&otilde;es, pode solicitar exames e adotar medidas cautelares com efeito imediato perante perigo ambiental grave.</p>
+    </div>
+
+    <h3>6.3 Conserva&ccedil;&atilde;o da Natureza e Biodiversidade</h3>
+
+    <div class="law-box">
+        <h4>DL 142/2008 &mdash; Conserva&ccedil;&atilde;o da Natureza e Biodiversidade</h4>
+        <p>Quadro legal para &aacute;reas protegidas incluindo a Reserva Natural do Estu&aacute;rio do Sado. Define objetivos de conserva&ccedil;&atilde;o e requisitos de planeamento de gest&atilde;o. Plano de gest&atilde;o Natura 2000 para o s&iacute;tio PTCON0011 emitido ao abrigo deste decreto-lei. Doze habitats priorit&aacute;rios e onze esp&eacute;cies priorit&aacute;rias na Pen&iacute;nsula de Set&uacute;bal/Sado.</p>
+    </div>
+    <div class="law-box">
+        <h4>DL 140/99 &mdash; Transposi&ccedil;&atilde;o das Diretivas Habitats e Aves</h4>
+        <p>Pradarias marinhas s&atilde;o habitats do Anexo I: 1110 (bancos de areia, inclui Zostera), 1140 (lod&ccedil;ais/areais), 1150* (lagunas costeiras, habitat priorit&aacute;rio). Sapais s&atilde;o habitats do Anexo I: 1310 (Salicornia pioneira), 1320 (Spartina), 1410 (prados salgados mediterr&acirc;nicos), 1420 (mato halof&iacute;lico mediterr&acirc;nico). Portugal tem a obriga&ccedil;&atilde;o legal de manter ou restaurar estes habitats em estado de conserva&ccedil;&atilde;o favor&aacute;vel. O incumprimento constitui risco de infra&ccedil;&atilde;o comunit&aacute;ria.</p>
+    </div>
+
+    <h3>6.4 Responsabilidade Ambiental e Execu&ccedil;&atilde;o</h3>
+
+    <div class="law-box">
+        <h4>DL 147/2008 &mdash; Responsabilidade Ambiental</h4>
+        <p>Danos significativos a bens ambientais protegidos geram responsabilidade. Respons&aacute;vel: quem executa, controla ou exerce poderes decisivos sobre a atividade danosa. Responsabilidade implica obriga&ccedil;&atilde;o de implementar medidas preventivas e de repara&ccedil;&atilde;o e suportar os custos. <strong>Danos ao solo devem ser comunicados &agrave;s autoridades em 24 horas.</strong> Aplica-se a danos &agrave; biodiversidade em s&iacute;tios Natura 2000, incluindo destrui&ccedil;&atilde;o de pradarias e sapais por mariscagem nociva ou ancoragem.</p>
+    </div>
+    <div class="law-box">
+        <h4>Lei 50/2006 &mdash; Contraordena&ccedil;&otilde;es Ambientais</h4>
+        <p>Coimas: 2.000&euro; a 5.000.000&euro;. Podem ser duplicadas quando subst&acirc;ncias perigosas afetem gravemente sa&uacute;de, seguran&ccedil;a ou ambiente. San&ccedil;&otilde;es acess&oacute;rias incluem proibi&ccedil;&atilde;o de atividades e perda de subs&iacute;dios p&uacute;blicos. Pagamento volunt&aacute;rio no m&iacute;nimo ou redu&ccedil;&atilde;o de 25% dispon&iacute;vel. ONGA podem monitorizar os processos. Para pescadoras de subsist&ecirc;ncia, mesmo as coimas m&iacute;nimas s&atilde;o existenciais. O mecanismo de contrato de adapta&ccedil;&atilde;o (conformidade colaborativa ao abrigo da <span class="law-ref">Lei 58/2005</span>) &eacute; a alternativa construtiva: acordo formal entre o ICNF e a comunidade piscal&oacute;ria estabelecendo compromissos comportamentais, provis&otilde;es de rendimento alternativo e fun&ccedil;&otilde;es de monitoriza&ccedil;&atilde;o.</p>
+    </div>
+
+    <h3>6.5 &Aacute;gua e Mar</h3>
+
+    <div class="law-box">
+        <h4>Lei 58/2005 + DL 226-A/2007 + DL 119/2019 &mdash; Lei da &Aacute;gua</h4>
+        <p>Transp&otilde;e a Diretiva-Quadro da &Aacute;gua. Bom estado ecol&oacute;gico obrigat&oacute;rio para todas as massas de &aacute;gua. O Estu&aacute;rio do Sado &eacute; uma massa de &aacute;gua de transi&ccedil;&atilde;o. <strong>A Zostera noltei &eacute; um elemento de qualidade biol&oacute;gica para avalia&ccedil;&atilde;o do estado ecol&oacute;gico.</strong> Decl&iacute;nio das pradarias = decl&iacute;nio do estado ecol&oacute;gico = incumprimento da DQA. N&atilde;o &eacute; apenas argumento ambiental, mas argumento de conformidade legal que Portugal deve responder perante a Comiss&atilde;o Europeia. A Taxa de Recursos H&iacute;dricos compensa custos ambientais de atividades que afetam recursos h&iacute;dricos, constituindo fonte potencial de financiamento para restaura&ccedil;&atilde;o.</p>
+    </div>
+
+    <h3>6.6 Carbono e Mercados Clim&aacute;ticos</h3>
+
+    <div class="law-box">
+        <h4>DL 4/2024 &mdash; Mercado Volunt&aacute;rio de Carbono</h4>
+        <p>Estabelece o MVC portugu&ecirc;s. Define normas, elegibilidade de projetos e mecanismos para emiss&atilde;o, transfer&ecirc;ncia e utiliza&ccedil;&atilde;o de cr&eacute;ditos de carbono num mercado gerido pelo Estado. <strong>Solu&ccedil;&otilde;es baseadas na natureza explicitamente favorecidas, com especial aten&ccedil;&atilde;o ao carbono azul e projetos florestais.</strong> Supervis&atilde;o pela ApC (operacional desde janeiro de 2025 ao abrigo do <span class="law-ref">DL 122/2024</span>). Governo lan&ccedil;ou programa bienal de restaura&ccedil;&atilde;o de pradarias em dezembro de 2025 visando desenvolvimento de metodologia para o MVC. As pradarias mapeadas pela Ocean Alive s&atilde;o os dados sobre os quais esta metodologia ser&aacute; constru&iacute;da.</p>
+    </div>
+    <div class="law-box">
+        <h4>DL 12/2020 &mdash; Transposi&ccedil;&atilde;o do EU ETS</h4>
+        <p>Taxa de carbono (TCO2) aplicada a setores fora do ETS, indexada ao pre&ccedil;o do carbono no ETS. Cria o contexto de pre&ccedil;os em que os cr&eacute;ditos de carbono azul t&ecirc;m valor de mercado. Combinado com o quadro do MVC, estabelece que o sequestro de carbono por pradarias e sapais tem valor monet&aacute;rio quantific&aacute;vel ao abrigo da legisla&ccedil;&atilde;o portuguesa.</p>
+    </div>
+
+    <h3>6.7 Converg&ecirc;ncia Regulat&oacute;ria da UE</h3>
+
+    <table>
+        <thead>
+            <tr><th>Instrumento</th><th>Estado</th><th>Relev&acirc;ncia</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>CRCF</strong><br>Reg. 2024/3012</td>
+                <td>Adotado Nov 2024</td>
+                <td>Certifica remo&ccedil;&otilde;es de carbono incluindo carbono azul. Requisitos de MRV. Restaura&ccedil;&atilde;o Ocean Alive + dados espanhois = base de evid&ecirc;ncia para certifica&ccedil;&atilde;o.</td>
+            </tr>
+            <tr>
+                <td><strong>Reg. Restaura&ccedil;&atilde;o da Natureza</strong></td>
+                <td>Em vigor</td>
+                <td>Metas a n&iacute;vel ecossist&eacute;mico. Alinha com Prioridade #3 (pradarias + sapais + constru&ccedil;&atilde;o de ecossistema). Portugal deve reportar resultados mensur&aacute;veis.</td>
+            </tr>
+            <tr>
+                <td><strong>Diretiva Green Claims</strong></td>
+                <td>Processo legislativo</td>
+                <td>Todas as alega&ccedil;&otilde;es ambientais ao consumidor requerem subst&acirc;ncia&ccedil;&atilde;o por metodologia reconhecida. Parceiros empresariais que aleguem carbono azul necessitam dados verificados.</td>
+            </tr>
+            <tr>
+                <td><strong>CSRD / ESRS</strong></td>
+                <td>Em vigor, faseado</td>
+                <td>Grandes empresas reportam impactos/depend&ecirc;ncias na biodiversidade. CMVM supervisiona em Portugal. Investimento em pradarias report&aacute;vel sob ESRS E4 (Biodiversidade).</td>
+            </tr>
+            <tr>
+                <td><strong>JPI Oceans Carbono Azul</strong></td>
+                <td>Convite 5,3M&euro;</td>
+                <td>Portugal participa. Financia investiga&ccedil;&atilde;o em carbono azul sobre mitiga&ccedil;&atilde;o, adapta&ccedil;&atilde;o clim&aacute;tica, biodiversidade. Oportunidade direta para proposta multi-parceiros.</td>
+            </tr>
+            <tr>
+                <td><strong>Diretiva Habitats / Natura 2000</strong></td>
+                <td>Em curso</td>
+                <td>PTCON0011 deve atingir estado de conserva&ccedil;&atilde;o favor&aacute;vel para habitats Anexo I de pradarias e sapais. Plano de gest&atilde;o inadequado = risco de infra&ccedil;&atilde;o.</td>
+            </tr>
+            <tr>
+                <td><strong>Diretiva-Quadro da &Aacute;gua</strong></td>
+                <td>Em curso</td>
+                <td>Bom estado ecol&oacute;gico. Pradarias s&atilde;o elemento de qualidade biol&oacute;gica. Decl&iacute;nio = incumprimento. Mensur&aacute;vel, report&aacute;vel, execut&aacute;vel.</td>
+            </tr>
+            <tr>
+                <td><strong>Norma Europeia Obriga&ccedil;&otilde;es Verdes</strong></td>
+                <td>Em vigor Dez 2024</td>
+                <td>CMVM designada como autoridade portuguesa. Obriga&ccedil;&otilde;es verdes requerem impacto ambiental verificado. Restaura&ccedil;&atilde;o de pradarias/sapais qualifica como utiliza&ccedil;&atilde;o de receitas.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="sand-box">
+        <h4>Entidades Reguladoras</h4>
+        <p><strong>ICNF:</strong> Gere a Reserva Natural do Estu&aacute;rio do Sado, s&iacute;tios Natura 2000, emite planos de gest&atilde;o. Alvo principal da Prioridade #1. <strong>APA:</strong> Conformidade DQA, licenciamento ambiental. Chave para governan&ccedil;a a montante. <strong>ApC:</strong> Supervis&atilde;o do MVC, Fundo Ambiental, Fundo Azul. Alvo principal para entrada no mercado de carbono. <strong>CCDR Alentejo:</strong> Coordena&ccedil;&atilde;o regional. <strong>IGAMAOT:</strong> Inspetora com acesso livre, poderes de investiga&ccedil;&atilde;o, medidas cautelares com efeito imediato. <strong>CMVM:</strong> Supervis&atilde;o de relat&oacute;rios ESG, Norma Europeia de Obriga&ccedil;&otilde;es Verdes. Relevante para parcerias empresariais e finan&ccedil;as verdes. <strong>Fundo Ambiental:</strong> Mecanismo de financiamento, gerido pela ApC.</p>
+    </div>
+</div>
+
+<!-- 7 – CALENDÁRIO -->
+<div class="section">
+    <h2>7. Calend&aacute;rio</h2>
+
+    <p>Trabalho presencial come&ccedil;a no ver&atilde;o de 2026. Prepara&ccedil;&atilde;o remota antes disso.</p>
+
+    <table>
+        <thead>
+            <tr><th>Quando</th><th>O Qu&ecirc;</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Fev &ndash; Mai 2026</strong><br><em>Prepara&ccedil;&atilde;o remota</em></td>
+                <td>Conversas iniciais com o Vasco. Confirmar prioridades e necessidades. Identificar o grupo espanhol. Mapear legisla&ccedil;&atilde;o portuguesa. Avaliar oportunidades de financiamento (JPI Oceans, Horizon Europe, LIFE, Fundo Ambiental). Preparar esbo&ccedil;os iniciais e estrat&eacute;gia jur&iacute;dica.</td>
+            </tr>
+            <tr>
+                <td><strong>Jun &ndash; Ago 2026</strong><br><em>Trabalho de campo presencial</em></td>
+                <td>Reunir com equipa da Ocean Alive e grupo espanhol. Visitas de campo ao Sado. Entrevistas e documenta&ccedil;&atilde;o com as Guardi&atilde;s do Mar. An&aacute;lise espacial ArcGIS (pradarias + sapais + limites de governan&ccedil;a). Reda&ccedil;&atilde;o de notas pol&iacute;ticas. Divulga&ccedil;&atilde;o de parcerias empresariais. Submiss&atilde;o ao plano de gest&atilde;o Natura 2000 (se em consulta). Candidatura ao Fundo Ambiental.</td>
+            </tr>
+            <tr>
+                <td><strong>Set &ndash; Dez 2026</strong><br><em>Integra&ccedil;&atilde;o e entreg&aacute;veis</em></td>
+                <td>Concluir documentos pol&iacute;ticos. Submeter recomenda&ccedil;&otilde;es &agrave; ApC. Quadro de verifica&ccedil;&atilde;o multi-s&iacute;tio (Sado + Ria Formosa + Ria de Aveiro, se aplic&aacute;vel). Cap&iacute;tulos de tese conclu&iacute;dos. Primeira parceria empresarial assegurada. Arquitetura de certifica&ccedil;&atilde;o desenhada.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 8 – COMO ISTO PODERIA FUNCIONAR -->
+<div class="section">
+    <h2>8. Como Isto Poderia Funcionar</h2>
+
+    <p>Isto &eacute; uma proposta, n&atilde;o um plano. Tudo depende de se esta colabora&ccedil;&atilde;o faz sentido para a Ocean Alive. Se fizer, h&aacute; algumas coisas que me ajudariam a contribuir bem:</p>
+
+    <div class="two-col">
+        <div class="col-card">
+            <h4>Acesso</h4>
+            <p>Se poss&iacute;vel, acesso aos dados de monitoriza&ccedil;&atilde;o de pradarias e sapais, e uma introdu&ccedil;&atilde;o ao grupo espanhol de investiga&ccedil;&atilde;o. Ficaria tamb&eacute;m muito grata pela oportunidade de conhecer as Guardi&atilde;s do Mar e aprender com a sua experi&ecirc;ncia diretamente.</p>
+        </div>
+        <div class="col-card">
+            <h4>Contexto</h4>
+            <p>Uma compreens&atilde;o do hist&oacute;rico &mdash; rela&ccedil;&otilde;es com o ICNF, a APA, as autarquias, a Oceano Azul Foundation. O que funcionou nos esfor&ccedil;os pol&iacute;ticos anteriores, o que n&atilde;o funcionou e porqu&ecirc;. A paisagem pol&iacute;tica que n&atilde;o aparece na legisla&ccedil;&atilde;o.</p>
+        </div>
+        <div class="col-card">
+            <h4>Colabora&ccedil;&atilde;o nos Resultados</h4>
+            <p>Quaisquer documentos pol&iacute;ticos ou notas informativas seriam co-autoria e revistos pela Ocean Alive antes de submiss&atilde;o. Nada sai sem a vossa aprova&ccedil;&atilde;o. Este &eacute; o vosso estu&aacute;rio, a vossa comunidade, o vosso nome.</p>
+        </div>
+        <div class="col-card">
+            <h4>Uso Acad&eacute;mico</h4>
+            <p>Este trabalho integraria a minha tese de mestrado em governan&ccedil;a espacial marinha. Acolheria com agrado a co-autoria em quaisquer publica&ccedil;&otilde;es acad&eacute;micas, e a pr&oacute;pria tese estar&aacute; publicamente dispon&iacute;vel.</p>
+        </div>
+    </div>
+</div>
+
+<!-- 9 – CONVERSA -->
+<div class="section">
+    <h2>9. Conversa</h2>
+
+    <p>Gostaria muito de ter uma conversa com a equipa para compreender melhor as prioridades da Ocean Alive e explorar se esta colabora&ccedil;&atilde;o poderia ser &uacute;til. Algumas coisas sobre as quais tenho curiosidade:</p>
+
+    <div class="sand-box">
+        <h4>Algumas Quest&otilde;es</h4>
+        <p>1. Seria poss&iacute;vel saber mais sobre o estado atual do plano de gest&atilde;o Natura 2000 do Sado? Interessa-me particularmente se houve uma fase de consulta p&uacute;blica e se a Ocean Alive teve oportunidade de contribuir.</p>
+        <p>2. Poderiam contar-me sobre o grupo espanhol de investiga&ccedil;&atilde;o? Ficaria grata por quaisquer detalhes sobre a institui&ccedil;&atilde;o, o &acirc;mbito do trabalho e como se liga aos dados de conserva&ccedil;&atilde;o da Ocean Alive.</p>
+        <p>3. Posso perguntar se a Ocean Alive tem estatuto de ONGA ao abrigo da legisla&ccedil;&atilde;o portuguesa? Isto abre disposi&ccedil;&otilde;es legais espec&iacute;ficas que poderiam ser muito &uacute;teis para o trabalho de governan&ccedil;a.</p>
+        <p>4. Interessa-me compreender como as Guardi&atilde;s do Mar est&atilde;o atualmente posicionadas nos processos de governan&ccedil;a &mdash; e onde poder&aacute; haver potencial para um maior reconhecimento formal.</p>
+        <p>5. H&aacute; algo que possam partilhar sobre o panorama de financiamento atual e eventuais transi&ccedil;&otilde;es pr&oacute;ximas?</p>
+        <p>6. Adoraria ouvir sobre o trabalho com sapais e o projeto de Vale de &Eacute;guas &mdash; como est&aacute; a desenvolver-se a abordagem de constru&ccedil;&atilde;o de ecossistema?</p>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- ADENDA A – MAPA DE FINANCIAMENTO -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" style="margin-top:3rem; padding-top:2rem; border-top:2px solid var(--border);">
+    <div class="doc-label">Adenda A &middot; Fevereiro 2026</div>
+    <h2 style="border-bottom:2px solid var(--pacific);">Mapa de Financiamento &amp; Oportunidades</h2>
+
+    <p>Esta adenda mapeia as oportunidades de financiamento atuais e futuras relevantes para o trabalho da Ocean Alive em conserva&ccedil;&atilde;o de pradarias marinhas e sapais, desenvolvimento de carbono azul e governan&ccedil;a marinha comunit&aacute;ria. Organizado por calend&aacute;rio, do mais imediato ao horizonte mais longo.</p>
+
+    <!-- IMEDIATO -->
+    <h3 style="color:var(--coral);">Imediato &mdash; Prazos Antes do Ver&atilde;o 2026</h3>
+
+    <div class="ocean-box">
+        <h4>JPI Oceans &mdash; Blue Carbon Ecosystems Joint Call</h4>
+        <p><strong>Or&ccedil;amento:</strong> &euro;5,3 milh&otilde;es &middot; <strong>Prazo:</strong> 2 de mar&ccedil;o de 2026 (14h00 CET)</p>
+        <p><strong>Dura&ccedil;&atilde;o:</strong> At&eacute; 36 meses &middot; <strong>In&iacute;cio:</strong> Antes de 15 de dezembro de 2026</p>
+        <p><strong>Pa&iacute;ses participantes:</strong> Irlanda (l&iacute;der), Canad&aacute;, Alemanha, Malta, Noruega, Pol&oacute;nia, Gr&eacute;cia (em esp&eacute;cie). Portugal participa via Blue Carbon Knowledge Hub.</p>
+        <p><strong>Temas:</strong> (A) Stocks e fluxos de carbono a escalas local e regional, (B) Resili&ecirc;ncia e vulnerabilidade de ecossistemas de carbono azul, (C) Efic&aacute;cia e escalabilidade de medidas de restauro e prote&ccedil;&atilde;o.</p>
+        <p><strong>Relev&acirc;ncia:</strong> Diretamente alinhado com o trabalho da Ocean Alive em pradarias + sapais e a quantifica&ccedil;&atilde;o do grupo espanhol. Tema C em particular &mdash; restauro comunit&aacute;rio, modelo de monitoriza&ccedil;&atilde;o das Guardi&atilde;s do Mar, escalabilidade do Sado para enquadramento multi-local. Requer cons&oacute;rcio transnacional (m&iacute;nimo dois pa&iacute;ses). O grupo espanhol seria um parceiro natural.</p>
+        <p><strong>Nota:</strong> O prazo &eacute; em cerca de tr&ecirc;s semanas. Uma candidatura nova de raiz seria muito apertada, mas vale a pena explorar se um cons&oacute;rcio existente poderia integrar a Ocean Alive como parceira.</p>
+    </div>
+
+    <div class="sand-box">
+        <h4>Horizon Europe &mdash; A&ccedil;&otilde;es Transversais &agrave;s Miss&otilde;es</h4>
+        <p><strong>Prazo:</strong> 31 de mar&ccedil;o de 2026</p>
+        <p><strong>&bull;</strong> Refor&ccedil;o de compet&ecirc;ncias e capacidades para Miss&otilde;es EU &mdash; c.&euro;1M</p>
+        <p><strong>&bull;</strong> Superar barreiras &agrave; escala de inova&ccedil;&otilde;es para Miss&otilde;es EU &mdash; c.&euro;2M</p>
+        <p><strong>&bull;</strong> Mercados-l&iacute;der e prova de conceito para solu&ccedil;&otilde;es deep tech &mdash; c.&euro;4M/projeto</p>
+    </div>
+
+    <!-- VERÃO-OUTONO 2026 -->
+    <h3 style="color:var(--pacific);">Ver&atilde;o &ndash; Outono 2026</h3>
+
+    <div class="ocean-box">
+        <h4>Horizon Europe &mdash; Miss&atilde;o &ldquo;Restore our Ocean and Waters&rdquo; (Calls 2026)</h4>
+        <p><strong>Abertura:</strong> 4 de fevereiro de 2026 &middot; <strong>Prazo:</strong> 23 de setembro de 2026</p>
+        <p><strong>Or&ccedil;amento indicativo total:</strong> &euro;120 milh&otilde;es em cinco t&oacute;picos 2026</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr><th>Refer&ecirc;ncia</th><th>T&iacute;tulo</th><th>Or&ccedil;amento/Projeto</th><th>Relev&acirc;ncia</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="font-family:'Courier New',monospace; font-size:0.75rem;">OCEAN-01</td>
+                <td>Demonstra&ccedil;&atilde;o em larga escala para mapeamento de habitats marinhos para implementar o Regulamento de Restauro da Natureza</td>
+                <td>&euro;7&ndash;7,75M<br>(at&eacute; 4 projetos)</td>
+                <td><strong>ALTA.</strong> Ocean Alive tem 190+ ha mapeados, 4 anos de monitoriza&ccedil;&atilde;o, Guardi&atilde;s com GPS. Mapeamento de pradarias + sapais para NRR &eacute; exatamente esta call.</td>
+            </tr>
+            <tr>
+                <td style="font-family:'Courier New',monospace; font-size:0.75rem;">OCEAN-02</td>
+                <td>Polui&ccedil;&atilde;o aqu&aacute;tica e perda de biodiversidade atrav&eacute;s de solu&ccedil;&otilde;es positivas para a natureza</td>
+                <td>&euro;7&ndash;7,75M<br>(at&eacute; 4 projetos)</td>
+                <td><strong>M&Eacute;DIA.</strong> Governan&ccedil;a a montante, escoamento agr&iacute;cola, conformidade DQA.</td>
+            </tr>
+            <tr>
+                <td style="font-family:'Courier New',monospace; font-size:0.75rem;">OCEAN-03</td>
+                <td><strong>Pelos pescadores, para pescadores:</strong> cogest&atilde;o de ecossistemas marinhos e de &aacute;guas doces</td>
+                <td>&euro;7&ndash;7,75M<br>(at&eacute; 4 projetos)</td>
+                <td><strong>MUITO ALTA.</strong> Este &eacute; o modelo das Guardi&atilde;s do Mar. Cogest&atilde;o por pescadores, governan&ccedil;a comunit&aacute;ria, mulheres na pesca. N&atilde;o poderia estar mais alinhado. Candidatura priorit&aacute;ria.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="sand-box">
+        <h4>Programa LIFE &mdash; Natureza &amp; Biodiversidade (Call 2026)</h4>
+        <p><strong>Abertura prevista:</strong> Primavera 2026 &middot; <strong>Prazo previsto:</strong> Setembro&ndash;Outubro 2026</p>
+        <p><strong>Or&ccedil;amento 2025 Natureza &amp; Biodiversidade:</strong> &euro;153,4 milh&otilde;es &middot; <strong>Cofinanciamento:</strong> at&eacute; 75%</p>
+        <p><strong>Valor t&iacute;pico:</strong> &euro;1&ndash;5M por projeto (SAP), dura&ccedil;&atilde;o 3&ndash;5 anos</p>
+        <p><strong>Relev&acirc;ncia:</strong> Suporta implementa&ccedil;&atilde;o das Diretivas Habitats e Aves e da rede Natura 2000. O trabalho da Ocean Alive est&aacute; diretamente dentro de PTCON0011 (Estu&aacute;rio do Sado), abrangendo habitats Anexo I (pradarias 1110/1140/1150*, sapais 1310/1320/1410/1420).</p>
+        <p><strong>Nota:</strong> LIFE Platform Meeting sobre tema Marinho agendada para 9&ndash;12 de junho de 2026. Oportunidade de networking.</p>
+    </div>
+
+    <!-- NACIONAL -->
+    <h3 style="color:var(--pacific-deep);">Financiamento Nacional Portugu&ecirc;s &mdash; Cont&iacute;nuo / Anual</h3>
+
+    <div class="green-box">
+        <h4>Floresta Azul &mdash; Restauro Ecol&oacute;gico de Pradarias Marinhas</h4>
+        <p><strong>Or&ccedil;amento:</strong> &euro;2 milh&otilde;es (&euro;1M por ano, 2026&ndash;2027)</p>
+        <p><strong>Gest&atilde;o:</strong> Ag&ecirc;ncia para o Clima (ApC) via Fundo Ambiental</p>
+        <p><strong>Base legal:</strong> Portaria 442/2025/1 (publicada 12 de dezembro de 2025)</p>
+        <p><strong>Coordena&ccedil;&atilde;o:</strong> Minist&eacute;rio do Ambiente e Energia + Minist&eacute;rio da Agricultura e Mar</p>
+        <p><strong>Entidades eleg&iacute;veis:</strong> Institui&ccedil;&otilde;es de ensino superior, centros de investiga&ccedil;&atilde;o e outras entidades sem fins lucrativos, de reconhecido m&eacute;rito t&eacute;cnico, cient&iacute;fico e/ou comunit&aacute;rio, com atividade comprovada em conserva&ccedil;&atilde;o e restauro de pradarias marinhas</p>
+        <p><strong>Cinco linhas de atua&ccedil;&atilde;o:</strong> (1) Mapeamento e estado ecol&oacute;gico, incluindo quantifica&ccedil;&atilde;o de sequestro de carbono e plataforma de dados aberta, (2) Interven&ccedil;&otilde;es f&iacute;sicas de restauro, (3) Cria&ccedil;&atilde;o de viveiros, (4) Educa&ccedil;&atilde;o ambiental e sensibiliza&ccedil;&atilde;o comunit&aacute;ria, (5) Quantifica&ccedil;&atilde;o do sequestro de carbono para desenvolvimento de metodologia MVC.</p>
+        <p><strong>Mecanismo:</strong> Contratos-programa entre ApC, ICNF, APA, DGRM, IPMA e benefici&aacute;rios</p>
+        <p><strong>Relev&acirc;ncia:</strong> <strong>CR&Iacute;TICA.</strong> Este &eacute; o programa nacional que visa explicitamente a metodologia MVC para pradarias. As pradarias mapeadas pela Ocean Alive (190+ ha) s&atilde;o os dados sobre os quais esta metodologia ser&aacute; constru&iacute;da. Candidatura priorit&aacute;ria.</p>
+    </div>
+
+    <div class="sand-box">
+        <h4>Fundo Ambiental &mdash; Conserva&ccedil;&atilde;o da Natureza &amp; Biodiversidade</h4>
+        <p><strong>Gest&atilde;o:</strong> Ag&ecirc;ncia para o Clima (ApC) desde 2026</p>
+        <p><strong>Or&ccedil;amento:</strong> Concursos anuais; 2024 alocou &euro;202,5M no total. Conserva&ccedil;&atilde;o da natureza &eacute; prioridade definida. Cofinanciamento at&eacute; 85%.</p>
+        <p><strong>Relev&acirc;ncia:</strong> Concursos ao longo do ano. O estatuto de cooperativa e ONGA da Ocean Alive (se confirmado) tornam-na eleg&iacute;vel.</p>
+    </div>
+
+    <div class="sand-box">
+        <h4>Fundo Azul / Portugal Blue</h4>
+        <p><strong>Estrutura:</strong> Fundo governamental + parceria EIF (&euro;75M+ mobilizados)</p>
+        <p><strong>Foco:</strong> Economia azul, a&ccedil;&atilde;o clim&aacute;tica, conserva&ccedil;&atilde;o oce&acirc;nica</p>
+        <p><strong>Relev&acirc;ncia:</strong> Mais orientado para PMEs. Relevante se a Ocean Alive desenvolver produtos de certifica&ccedil;&atilde;o (r&oacute;tulo de marisco sustent&aacute;vel) ou metodologia de cr&eacute;ditos de carbono azul com aplica&ccedil;&otilde;es comerciais.</p>
+    </div>
+
+    <div class="sand-box">
+        <h4>Funda&ccedil;&atilde;o Oceano Azul &mdash; Ocean Conservation Fund</h4>
+        <p><strong>Estrutura:</strong> Iniciativa conjunta com Ocean&aacute;rio de Lisboa, desde 2017</p>
+        <p><strong>Relev&acirc;ncia:</strong> A Ocean Alive j&aacute; &eacute; parceira. O objetivo aqui n&atilde;o &eacute; uma nova candidatura mas aprofundar a parceria &mdash; co-advocacia para metodologia MVC de pradarias, nota pol&iacute;tica conjunta para ApC, apoio &agrave; expans&atilde;o PALOP.</p>
+    </div>
+
+    <!-- HORIZONTE 2027 -->
+    <h3 style="color:var(--ocean-dark);">Horizonte Mais Longo &mdash; Calls 2027</h3>
+
+    <div class="ocean-box">
+        <h4>Horizon Europe &mdash; Miss&atilde;o Oceano (Calls 2027)</h4>
+        <p><strong>Prazo previsto:</strong> Setembro 2027</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr><th>Refer&ecirc;ncia</th><th>T&iacute;tulo</th><th>Or&ccedil;amento/Projeto</th><th>Relev&acirc;ncia</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="font-family:'Courier New',monospace; font-size:0.75rem;">OCEAN-05 (2027)</td>
+                <td><strong>Demonstra&ccedil;&atilde;o em larga escala de prote&ccedil;&atilde;o, restauro e gest&atilde;o de ecossistemas de floresta azul nas bacias mar&iacute;timas europeias</strong></td>
+                <td>&euro;3,5&ndash;3,975M<br>(at&eacute; 4 projetos)</td>
+                <td><strong>MUITO ALTA.</strong> &ldquo;Florestas azuis&rdquo; = pradarias marinhas. Enquadramento multi-local (Sado + Ria Formosa + Ria de Aveiro) posiciona a Ocean Alive como l&iacute;der natural da bacia Atl&acirc;ntica.</td>
+            </tr>
+            <tr>
+                <td style="font-family:'Courier New',monospace; font-size:0.75rem;">OCEAN-01 (2027)</td>
+                <td>Resili&ecirc;ncia de &aacute;reas costeiras e ribeirinhas &agrave;s altera&ccedil;&otilde;es clim&aacute;ticas</td>
+                <td>&euro;8&ndash;8,925M<br>(at&eacute; 4 projetos)</td>
+                <td><strong>M&Eacute;DIA.</strong> Governan&ccedil;a a montante, resili&ecirc;ncia costeira, adapta&ccedil;&atilde;o comunit&aacute;ria.</td>
+            </tr>
+            <tr>
+                <td style="font-family:'Courier New',monospace; font-size:0.75rem;">OCEAN-04 (2027)</td>
+                <td>Modelos de neg&oacute;cio comunit&aacute;rios para turismo costeiro sustent&aacute;vel</td>
+                <td>&euro;1&ndash;1,5M<br>(at&eacute; 4 projetos)</td>
+                <td><strong>M&Eacute;DIA.</strong> Guardi&atilde;s do Mar como educa&ccedil;&atilde;o mar&iacute;tima tur&iacute;stica, modelo Ocean Alive Camp.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ESTRUTURAL -->
+    <h3 style="color:var(--pacific);">Estrutural &amp; Transnacional</h3>
+
+    <div class="sand-box">
+        <h4>Interreg Atlantic Area 2021&ndash;2027</h4>
+        <p><strong>Or&ccedil;amento total:</strong> &euro;113 milh&otilde;es (FEDER) &middot; <strong>Cofinanciamento:</strong> at&eacute; 75%</p>
+        <p><strong>Pa&iacute;ses eleg&iacute;veis:</strong> Portugal (todas as regi&otilde;es), Espanha, Fran&ccedil;a, Irlanda</p>
+        <p><strong>Prioridade 3:</strong> Ecossistemas e Biodiversidade, Preven&ccedil;&atilde;o da Polui&ccedil;&atilde;o, Economia Azul</p>
+        <p><strong>Relev&acirc;ncia:</strong> Coopera&ccedil;&atilde;o transnacional atl&acirc;ntica. Parceria Portugal-Espanha (Ocean Alive + grupo espanhol) &eacute; um fit natural. 151 projetos aprovados, mais calls esperadas.</p>
+    </div>
+
+    <!-- RESUMO -->
+    <h3 style="color:var(--ocean-dark);">Resumo &mdash; Sequ&ecirc;ncia de Prioridades</h3>
+
+    <table>
+        <thead>
+            <tr><th>Prioridade</th><th>Fonte</th><th>Quando</th><th>Valor Indicativo</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>1</strong></td><td>Floresta Azul (Fundo Ambiental)</td><td>2026&ndash;2027, timing TBC</td><td>&euro;1M/ano</td></tr>
+            <tr><td><strong>2</strong></td><td>Horizon Europe OCEAN-03: Pelos pescadores</td><td>Aberto &rarr; 23 Set 2026</td><td>&euro;7&ndash;7,75M</td></tr>
+            <tr><td><strong>3</strong></td><td>Horizon Europe OCEAN-01: Mapeamento habitats NRR</td><td>Aberto &rarr; 23 Set 2026</td><td>&euro;7&ndash;7,75M</td></tr>
+            <tr><td><strong>4</strong></td><td>LIFE Natureza &amp; Biodiversidade (SAP 2026)</td><td>Primavera &rarr; Set/Out 2026</td><td>&euro;1&ndash;5M</td></tr>
+            <tr><td><strong>5</strong></td><td>JPI Oceans Blue Carbon</td><td>Atual: 2 Mar 2026</td><td>&euro;5,3M total</td></tr>
+            <tr><td><strong>6</strong></td><td>Fundo Ambiental &mdash; concursos biodiversidade</td><td>Cont&iacute;nuo, ao longo de 2026</td><td>Vari&aacute;vel</td></tr>
+            <tr><td><strong>7</strong></td><td>Horizon Europe 2027: Florestas azuis</td><td>Set 2027</td><td>&euro;3,5&ndash;4M</td></tr>
+            <tr><td><strong>8</strong></td><td>Interreg Atlantic Area</td><td>Calls futuras TBC</td><td>75% cofin.</td></tr>
+        </tbody>
+    </table>
+
+    <div class="law-box">
+        <h4>Nota sobre Requisitos de Cons&oacute;rcio</h4>
+        <p>A maioria dos financiamentos EU (Horizon Europe, JPI Oceans, Interreg) requer cons&oacute;rcios transnacionais com parceiros de pelo menos dois ou tr&ecirc;s pa&iacute;ses. As parcerias existentes da Ocean Alive &mdash; grupo espanhol, Seawilding (Esc&oacute;cia), Patagonia (internacional), CCMAR/UAlg (Algarve), MARE &mdash; fornecem os elementos base para constru&ccedil;&atilde;o de cons&oacute;rcios.</p>
+        <p>Financiamentos nacionais portugueses (Floresta Azul, Fundo Ambiental) podem ser candidatados diretamente pela Ocean Alive, particularmente dado o seu estatuto de cooperativa e ONGA (se confirmado).</p>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="doc-footer">
+    Amy Wolkenhauer &middot; MSc Ci&ecirc;ncias Ambientais &amp; Pol&iacute;ticas P&uacute;blicas, Oregon State University (Dez 2026)<br>
+    
+    Ponto de Contacto: Vasco &middot; +351 932 875 792
+</footer>
+
+</div>
+</body>
+</html>

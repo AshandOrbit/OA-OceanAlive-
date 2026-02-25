@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ocean Alive – Grant Calendar & Funding Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #041A1A;
+  --sand: #0A242A;
+  --pnl: #0D2E32;
+  --pnl-h: #103538;
+  --bdr: rgba(0,151,167,.18);
+  --bdr-l: rgba(0,151,167,.08);
+  --dx: #0097A7;
+  --dx-l: #4DD0E1;
+  --dx-d: rgba(0,151,167,.08);
+  --gold: #C9A962;
+  --gl: #DFC88A;
+  --coral: #E07C5A;
+  --coral-light: #F09878;
+  --sea: #00796B;
+  --sea-l: #26A69A;
+  --ink: #F2EDE4;
+  --ink-light: #A0B5AD;
+  --sm: #7A8E86;
+  --mt: #556B6B;
+  --g: #4CAF50;
+  --g-d: rgba(76,175,80,.15);
+  --a: #FF9800;
+  --a-d: rgba(255,152,0,.15);
+  --r: #EF5350;
+  --purple: #B39DDB;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.3);
+  --radius: 6px;
+  --radius-lg: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+.app-header {
+  background: var(--sand);
+  padding: 2rem 2.5rem 1.5rem;
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--bdr);
+}
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(0,151,167,.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 80%, rgba(201,169,98,.04) 0%, transparent 50%);
+}
+.header-content { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; }
+.header-brand { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+.header-brand h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 600; letter-spacing: 0.02em; color: var(--dx-l); }
+.header-brand .brand-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; background: rgba(0,151,167,.1); padding: 0.2rem 0.6rem; border-radius: 3px; border: 1px solid rgba(0,151,167,.25); color: var(--sea-l); }
+.header-subtitle { font-size: 0.85rem; color: var(--sm); font-family: 'Playfair Display', serif; font-style: italic; }
+.nav-bar { background: var(--sand); border-bottom: 1px solid var(--bdr); padding: 0 2.5rem; position: sticky; top: 0; z-index: 100; }
+.nav-inner { max-width: 1400px; margin: 0 auto; display: flex; gap: 0; }
+.nav-tab { font-family: 'Source Sans 3', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.9rem 1.4rem; border: none; background: none; color: var(--sm); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; }
+.nav-tab:hover { color: var(--dx-l); background: rgba(0,151,167,.04); }
+.nav-tab.active { color: var(--dx-l); border-bottom-color: var(--dx); background: rgba(0,151,167,.06); }
+.main-content { max-width: 1400px; margin: 0 auto; padding: 1.5rem 2.5rem 3rem; }
+.pipeline-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: var(--pnl); border-radius: var(--radius-lg); padding: 1.2rem 1.4rem; box-shadow: var(--shadow-sm); border-left: 3px solid var(--mt); border: 1px solid var(--bdr-l); transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.stat-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); border-color: var(--bdr); }
+.stat-card.highlight { border-left-color: var(--dx); }
+.stat-card.urgent { border-left-color: var(--coral); }
+.stat-card.success { border-left-color: var(--g); }
+.stat-card.amber-card { border-left-color: var(--a); }
+.stat-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sm); font-weight: 600; margin-bottom: 0.3rem; }
+.stat-value { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--ink); line-height: 1.1; }
+.stat-sub { font-size: 0.72rem; color: var(--sm); margin-top: 0.2rem; }
+.timeline-container { position: relative; margin: 1.5rem 0; }
+.timeline-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+.timeline-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 600; color: var(--dx-l); }
+.timeline-legend { display: flex; gap: 1rem; font-size: 0.7rem; color: var(--sm); }
+.legend-item { display: flex; align-items: center; gap: 0.35rem; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+.month-lane { margin-bottom: 0.8rem; }
+.month-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--sm); margin-bottom: 0.4rem; padding-left: 0.2rem; }
+.month-grants { display: flex; flex-direction: column; gap: 0.4rem; }
+.grant-bar { display: flex; align-items: center; gap: 0.8rem; background: var(--pnl); border-radius: var(--radius); padding: 0.6rem 1rem; box-shadow: var(--shadow-sm); border-left: 3px solid var(--mt); border: 1px solid var(--bdr-l); cursor: pointer; transition: all 0.15s ease; }
+.grant-bar:hover { box-shadow: var(--shadow-md); transform: translateX(2px); border-color: var(--bdr); }
+.grant-bar.priority-critical { border-left-color: var(--coral); }
+.grant-bar.priority-high { border-left-color: var(--dx); }
+.grant-bar.priority-medium { border-left-color: var(--a); }
+.grant-bar.priority-low { border-left-color: var(--mt); }
+.grant-bar-priority { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.grant-bar-priority.critical { background: var(--coral); }
+.grant-bar-priority.high { background: var(--dx); }
+.grant-bar-priority.medium { background: var(--a); }
+.grant-bar-priority.low { background: var(--mt); }
+.grant-bar-info { flex: 1; min-width: 0; }
+.grant-bar-name { font-size: 0.82rem; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.grant-bar-programme { font-size: 0.68rem; color: var(--sm); margin-top: 0.1rem; }
+.grant-bar-meta { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+.grant-bar-amount { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 600; color: var(--g); }
+.grant-bar-deadline { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--sm); white-space: nowrap; }
+.grant-bar-status { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.15rem 0.5rem; border-radius: 3px; white-space: nowrap; }
+.status-watching { background: rgba(122,142,134,.15); color: var(--sm); }
+.status-preparing { background: rgba(0,151,167,.15); color: var(--dx-l); }
+.status-drafting { background: rgba(255,152,0,.15); color: var(--a); }
+.status-submitted { background: rgba(76,175,80,.15); color: var(--g); }
+.status-missed { background: rgba(239,83,80,.12); color: var(--r); text-decoration: line-through; }
+.detail-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(4,26,26,0.6); z-index: 200; display: flex; justify-content: flex-end; animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.detail-panel { width: 580px; max-width: 90vw; background: var(--sand); height: 100vh; overflow-y: auto; box-shadow: -8px 0 30px rgba(0,0,0,0.4); animation: slideIn 0.25s ease; border-left: 1px solid var(--bdr); }
+.detail-header { padding: 1.5rem 2rem; border-bottom: 1px solid var(--bdr); position: sticky; top: 0; background: var(--sand); z-index: 1; }
+.detail-close { position: absolute; top: 1rem; right: 1.2rem; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--sm); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.15s; }
+.detail-close:hover { background: var(--pnl); }
+.detail-priority-badge { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.6rem; border-radius: 3px; display: inline-block; margin-bottom: 0.5rem; }
+.badge-critical { background: rgba(224,124,90,.15); color: var(--coral); }
+.badge-high { background: rgba(0,151,167,.15); color: var(--dx-l); }
+.badge-medium { background: rgba(255,152,0,.15); color: var(--a); }
+.badge-low { background: rgba(122,142,134,.1); color: var(--sm); }
+.detail-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 600; line-height: 1.25; color: var(--dx-l); padding-right: 2rem; }
+.detail-programme { font-size: 0.8rem; color: var(--sm); margin-top: 0.3rem; }
+.detail-body { padding: 1.5rem 2rem 2rem; }
+.detail-section { margin-bottom: 1.5rem; }
+.detail-section-title { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--sm); margin-bottom: 0.6rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--bdr); }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.detail-field { background: var(--pnl); padding: 0.7rem 0.9rem; border-radius: var(--radius); border: 1px solid var(--bdr-l); }
+.detail-field-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--sm); font-weight: 600; margin-bottom: 0.2rem; }
+.detail-field-value { font-size: 0.85rem; font-weight: 500; color: var(--ink); }
+.detail-field-value.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+.detail-text { font-size: 0.82rem; line-height: 1.55; color: var(--sm); }
+.checklist { list-style: none; }
+.checklist li { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.45rem 0; font-size: 0.8rem; color: var(--ink); border-bottom: 1px solid var(--bdr-l); }
+.checklist li:last-child { border-bottom: none; }
+.check-icon { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid var(--mt); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: white; }
+.check-icon.done { background: var(--g); border-color: var(--g); }
+.status-select-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.status-btn { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.3rem 0.7rem; border-radius: 4px; border: 1.5px solid var(--bdr); background: var(--pnl); color: var(--sm); cursor: pointer; transition: all 0.15s; font-family: 'Source Sans 3', sans-serif; }
+.status-btn:hover { border-color: var(--dx); color: var(--dx-l); }
+.status-btn.selected { border-color: var(--dx); background: var(--dx); color: var(--bg); }
+.pipeline-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--pnl); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--bdr-l); }
+.pipeline-table thead th { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sm); padding: 0.8rem 1rem; text-align: left; background: var(--sand); border-bottom: 1px solid var(--bdr); font-weight: 600; position: sticky; top: 44px; z-index: 10; }
+.pipeline-table tbody td { padding: 0.7rem 1rem; font-size: 0.78rem; border-bottom: 1px solid var(--bdr-l); vertical-align: top; color: var(--ink); }
+.pipeline-table tbody tr { cursor: pointer; transition: background 0.1s; }
+.pipeline-table tbody tr:hover { background: rgba(0,151,167,.04); }
+.pipeline-table tbody tr:last-child td { border-bottom: none; }
+.td-priority { display: flex; align-items: center; gap: 0.4rem; font-weight: 700; font-size: 0.7rem; }
+.countdown { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; white-space: nowrap; }
+.countdown.urgent { color: var(--coral); font-weight: 700; }
+.countdown.soon { color: var(--a); font-weight: 600; }
+.countdown.comfortable { color: var(--g); }
+.action-section { margin-bottom: 2rem; }
+.action-section-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.8rem; }
+.action-section-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; font-weight: 700; }
+.action-section-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 600; color: var(--dx-l); }
+.action-count { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; background: var(--pnl); padding: 0.15rem 0.5rem; border-radius: 10px; color: var(--sm); }
+.action-card { background: var(--pnl); border-radius: var(--radius); padding: 0.8rem 1.1rem; margin-bottom: 0.5rem; box-shadow: var(--shadow-sm); border: 1px solid var(--bdr-l); display: flex; align-items: flex-start; gap: 0.8rem; transition: box-shadow 0.15s; }
+.action-card:hover { box-shadow: var(--shadow-md); border-color: var(--bdr); }
+.action-check { width: 18px; height: 18px; border-radius: 4px; border: 2px solid var(--mt); flex-shrink: 0; margin-top: 1px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+.action-check:hover { border-color: var(--dx); }
+.action-check.checked { background: var(--g); border-color: var(--g); color: white; font-size: 0.65rem; }
+.action-content { flex: 1; }
+.action-text { font-size: 0.82rem; line-height: 1.4; color: var(--ink); }
+.action-text.completed { text-decoration: line-through; color: var(--sm); }
+.action-meta { font-size: 0.68rem; color: var(--sm); margin-top: 0.2rem; display: flex; gap: 0.8rem; }
+.action-grant-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; background: var(--sand); padding: 0.1rem 0.4rem; border-radius: 3px; color: var(--dx-l); }
+.budget-overview { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+.budget-card { background: var(--pnl); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-md); border: 1px solid var(--bdr-l); }
+.budget-card-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; color: var(--dx-l); margin-bottom: 1rem; }
+.budget-bar-container { margin-bottom: 0.8rem; }
+.budget-bar-label { display: flex; justify-content: space-between; font-size: 0.72rem; margin-bottom: 0.3rem; }
+.budget-bar-label span:first-child { color: var(--ink); font-weight: 500; }
+.budget-bar-label span:last-child { font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+.budget-bar-track { height: 8px; background: var(--sand); border-radius: 4px; overflow: hidden; }
+.budget-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.note-card { background: var(--pnl); border-radius: var(--radius-lg); padding: 1.3rem 1.5rem; box-shadow: var(--shadow-sm); border-top: 3px solid var(--dx); border: 1px solid var(--bdr-l); border-top: 3px solid var(--dx); transition: box-shadow 0.15s; }
+.note-card:hover { box-shadow: var(--shadow-md); }
+.note-card-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--dx-l); margin-bottom: 0.6rem; }
+.note-card-body { font-size: 0.8rem; line-height: 1.55; color: var(--sm); }
+.note-card-body ul { padding-left: 1.2rem; margin-top: 0.3rem; }
+.note-card-body li { margin-bottom: 0.25rem; }
+.export-bar { display: flex; justify-content: flex-end; gap: 0.6rem; margin-bottom: 1rem; }
+.export-btn { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.45rem 1rem; border-radius: 4px; border: 1.5px solid var(--bdr); background: var(--pnl); color: var(--sm); cursor: pointer; transition: all 0.15s; font-weight: 500; }
+.export-btn:hover { border-color: var(--dx); color: var(--dx-l); }
+@media (max-width: 900px) {
+  .pipeline-stats { grid-template-columns: repeat(2, 1fr); }
+  .budget-overview { grid-template-columns: 1fr; }
+  .notes-grid { grid-template-columns: 1fr; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .main-content { padding: 1rem; }
+  .app-header { padding: 1.2rem 1rem; }
+  .nav-bar { padding: 0 1rem; overflow-x: auto; }
+  .grant-bar-meta { flex-wrap: wrap; gap: 0.4rem; }
+}
+@media print {
+  .nav-bar, .export-bar, .detail-overlay { display: none !important; }
+  .app-header { padding: 1rem; }
+  .main-content { padding: 1rem; }
+  body { background: white; color: #1a1a1a; }
+  .stat-card, .grant-bar, .action-card, .budget-card, .note-card, .pipeline-table, .detail-field { background: white; border-color: #ddd; color: #1a1a1a; }
+  .stat-value, .detail-name, .timeline-title, .action-section-title, .budget-card-title, .note-card-title { color: #1a1a1a; }
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script type="text/babel">
+const { useState, useMemo, useCallback } = React;
+
+const GRANTS = [
+  {
+    id: 'jpi-bc', name: 'Blue Carbon Ecosystems Joint Call', programme: 'JPI Oceans', ref: 'JPI-OCEANS-BC-2026',
+    budget: '€5.3M total', budgetNum: 5300000, perProject: '€200K–500K (varies)', deadline: '2026-03-02',
+    deadlineLabel: '2 March 2026', opens: '2025-12-15', duration: 'Up to 36 months', coFinancing: 'Varies by funder',
+    priority: 'high', priorityNum: 5, status: 'watching', category: 'eu',
+    themes: ['Blue carbon stocks/fluxes', 'Ecosystem resilience', 'Restoration scalability'],
+    fit: 'Theme C: community-based restoration, Keepers monitoring model, scalability from Sado to multi-site. Spanish group is natural consortium partner. Deadline ~3 weeks away – very tight for new application. Explore consortium integration.',
+    consortium: ['Ocean Alive (PT)', 'Spanish research group (ES)', 'MARE/UAlg (PT)', 'TBC partner from IE/DE/NO'],
+    consortiumMin: '2 participating countries',
+    actions: [
+      { text: 'Check if existing consortia are seeking PT partner', done: false },
+      { text: 'Contact Spanish group re: joint interest', done: false },
+      { text: 'Review Blue Carbon Knowledge Hub PT participation terms', done: false },
+      { text: 'If no fit for 2026, position for future rounds', done: false }
+    ],
+    notes: 'Portugal participates via Blue Carbon Knowledge Hub, not as direct funder. Irish SFI leads the call.'
+  },
+  {
+    id: 'he-cross', name: 'Cross-Mission Skills & Capacity', programme: 'Horizon Europe – Cross-Mission',
+    ref: 'HORIZON-MISS-2026-CROSS', budget: '€1–4M per topic', budgetNum: 2500000, perProject: '€1–4M',
+    deadline: '2026-03-31', deadlineLabel: '31 March 2026', opens: '2026-01-15', duration: '24–36 months',
+    coFinancing: '100%', priority: 'low', priorityNum: 8, status: 'watching', category: 'eu',
+    themes: ['Skills for Missions', 'Barriers to scale-up', 'Deep tech proof-of-concept'],
+    fit: 'Lower alignment. Skills/capacity topic could support Keepers training formalisation. Only pursue if bandwidth allows.',
+    consortium: [], consortiumMin: '3 EU countries',
+    actions: [{ text: 'Review call text for Keepers fit', done: false }],
+    notes: 'Low priority unless Keepers training formalisation becomes near-term goal.'
+  },
+  {
+    id: 'he-ocean-01', name: 'Marine Habitat Mapping for Nature Restoration Regulation',
+    programme: 'Horizon Europe – Mission Ocean 2026', ref: 'HORIZON-MISS-2026-03-OCEAN-01',
+    budget: '€7–7.75M/project', budgetNum: 7500000, perProject: '€7–7.75M (up to 4)', deadline: '2026-09-23',
+    deadlineLabel: '23 September 2026', opens: '2026-02-04', duration: '36–48 months', coFinancing: '100%',
+    priority: 'high', priorityNum: 3, status: 'preparing', category: 'eu',
+    themes: ['Marine habitat mapping', 'Nature Restoration Regulation', 'Monitoring', 'Seagrass & salt marsh'],
+    fit: 'HIGH. 190+ ha mapped, 4 years GPS monitoring, Keepers infrastructure. Seagrass + salt marsh for NRR = exactly this call. Atlantic basin demonstration site.',
+    consortium: ['Ocean Alive (PT)', 'MARE (PT)', 'CCMAR/UAlg (PT)', 'Spanish group (ES)', 'Seawilding (UK)', 'TBC Nordic'],
+    consortiumMin: '3 EU/associated countries',
+    actions: [
+      { text: 'Download full call text from Funding & Tenders Portal', done: false },
+      { text: 'Map data assets against call requirements', done: false },
+      { text: 'Identify lead institution (MARE?)', done: false },
+      { text: 'Draft consortium architecture', done: false },
+      { text: 'Contact Seawilding re: Atlantic partnership', done: false },
+      { text: 'Prepare data package: 190+ ha maps, monitoring protocols', done: false },
+      { text: 'Identify third-country partner (Baltic/Nordic)', done: false },
+      { text: 'Draft work package structure', done: false }
+    ],
+    notes: 'NRR entered force June 2024. Member states must submit national restoration plans by 2026. Portugal seagrass mapping gaps = opportunity.'
+  },
+  {
+    id: 'he-ocean-03', name: 'By Fishers, For Fishers: Co-management of Marine Ecosystems',
+    programme: 'Horizon Europe – Mission Ocean 2026', ref: 'HORIZON-MISS-2026-03-OCEAN-03',
+    budget: '€7–7.75M/project', budgetNum: 7500000, perProject: '€7–7.75M (up to 4)', deadline: '2026-09-23',
+    deadlineLabel: '23 September 2026', opens: '2026-02-04', duration: '36–48 months', coFinancing: '100%',
+    priority: 'critical', priorityNum: 2, status: 'preparing', category: 'eu',
+    themes: ['Fisher co-management', 'Community governance', 'Women in fisheries', 'Participatory monitoring', 'TEK'],
+    fit: 'PRIORITY TARGET. This IS the Keepers model in an EU call title. Fisher co-management, community governance, women in fisheries. Could not be more aligned.',
+    consortium: ['Ocean Alive (PT)', 'Spanish group (ES)', 'MARE (PT)', 'LIFE (Low Impact Fishers of Europe)', 'TBC IE/FR cooperative', 'TBC Scandinavian partner'],
+    consortiumMin: '3 EU/associated countries',
+    actions: [
+      { text: 'Download full call text – review gender/women dimensions', done: false },
+      { text: 'Map Keepers programme against call KPIs', done: false },
+      { text: 'Contact LIFE (Low Impact Fishers of Europe) re: consortium', done: false },
+      { text: 'Identify Irish or French fisheries cooperative', done: false },
+      { text: 'Prepare Keepers impact data package', done: false },
+      { text: 'Draft narrative: co-management as governance innovation', done: false },
+      { text: 'Review CFP reform alignment', done: false },
+      { text: 'Explore letter of support from DGRM / ICNF', done: false },
+      { text: 'Budget: estimate Ocean Alive work package value', done: false }
+    ],
+    notes: '#1 thematic match. Call title literally describes Ocean Alive core model. Consortium lead should be research institution (MARE) with Ocean Alive as primary implementation partner.'
+  },
+  {
+    id: 'he-ocean-02', name: 'Aquatic Pollution & Biodiversity via Nature-Positive Solutions',
+    programme: 'Horizon Europe – Mission Ocean 2026', ref: 'HORIZON-MISS-2026-03-OCEAN-02',
+    budget: '€7–7.75M/project', budgetNum: 7500000, perProject: '€7–7.75M (up to 4)', deadline: '2026-09-23',
+    deadlineLabel: '23 September 2026', opens: '2026-02-04', duration: '36–48 months', coFinancing: '100%',
+    priority: 'medium', priorityNum: 6, status: 'watching', category: 'eu',
+    themes: ['Source-to-sea pollution', 'WFD compliance', 'Nature-based solutions'],
+    fit: 'MEDIUM. Upstream governance, agricultural runoff into Sado. Only pursue if bandwidth allows after OCEAN-01/03.',
+    consortium: [], consortiumMin: '3 EU countries',
+    actions: [
+      { text: 'Review call text when available', done: false },
+      { text: 'Assess: pursue independently or combine with OCEAN-01/03?', done: false }
+    ],
+    notes: 'Relevant for Priority #3 (upstream governance) in partnership architecture.'
+  },
+  {
+    id: 'life-nb', name: 'LIFE Nature & Biodiversity – Standard Action Project',
+    programme: 'LIFE Programme 2026', ref: 'LIFE-2026-SAP-NAT',
+    budget: '€1–5M/project', budgetNum: 3000000, perProject: '€1–5M', deadline: '2026-10-01',
+    deadlineLabel: 'Sep–Oct 2026 (expected)', opens: '2026-04-01', duration: '3–5 years', coFinancing: 'Up to 75%',
+    priority: 'high', priorityNum: 4, status: 'watching', category: 'eu',
+    themes: ['Natura 2000', 'Habitats Directive', 'Species conservation', 'Ecosystem restoration'],
+    fit: 'Strong. PTCON0011 (Sado Estuary SPA/SCI). Annex I habitats: seagrass 1110/1140/1150*, salt marshes 1310/1320/1410/1420. Can be single-country. SNaPs for larger scale.',
+    consortium: ['Ocean Alive (PT)', 'ICNF (PT)', 'APA (PT)', 'MARE (PT)', 'Municipality of Setúbal (potential)'],
+    consortiumMin: '1 EU country (can be national)',
+    actions: [
+      { text: 'Monitor LIFE 2026 call opening (expected spring)', done: false },
+      { text: 'Review 2025 LIFE Nature priorities', done: false },
+      { text: 'LIFE Marine Platform Meeting: 9–12 June 2026 – attend', done: false },
+      { text: 'Financing for Nature Restoration meeting – attend', done: false },
+      { text: 'Map Annex I habitat data for Sado', done: false },
+      { text: 'Explore SNaP option for larger project', done: false }
+    ],
+    notes: 'No mandatory transnational consortium – more accessible than HE. 25% co-financing needs a plan (Patagonia? Municipality?).'
+  },
+  {
+    id: 'floresta-azul', name: 'Floresta Azul – Seagrass Ecological Restoration',
+    programme: 'Fundo Ambiental (Portugal)', ref: 'Portaria 442/2025/1',
+    budget: '€1M/year', budgetNum: 1000000, perProject: 'Contratos-programa', deadline: '2026-06-30',
+    deadlineLabel: 'TBC – likely H1 2026', opens: '2026-01-01', duration: '12–24 months',
+    coFinancing: 'Up to 100%', priority: 'critical', priorityNum: 1, status: 'preparing', category: 'national',
+    themes: ['Seagrass mapping', 'Ecological restoration', 'Carbon quantification', 'VCM methodology', 'Nurseries', 'Community education'],
+    fit: 'CRITICAL – PRIORITY #1. National programme targeting VCM methodology for seagrass. Ocean Alive\'s 190+ ha ARE the data. Keepers = monitoring infrastructure. Action lines 1, 4, 5 directly within existing work.',
+    consortium: ['Ocean Alive (cooperative)', 'MARE/CCMAR (potential research partner)'],
+    consortiumMin: 'Non-profit with proven seagrass conservation activity',
+    actions: [
+      { text: 'Monitor ApC website for call announcement', done: false },
+      { text: 'Contact ApC re: contratos-programa process', done: false },
+      { text: 'Prepare data package: 190+ ha mapping, 4yr monitoring, protocols', done: false },
+      { text: 'Draft proposal for Action Lines 1, 4, and 5', done: false },
+      { text: 'Confirm Ocean Alive ONGA status for eligibility', done: false },
+      { text: 'Identify MARE/CCMAR co-applicant', done: false },
+      { text: 'Prepare carbon sequestration baseline data', done: false },
+      { text: 'Draft 12-month budget', done: false }
+    ],
+    notes: 'Portaria published 12 Dec 2025. Coordinated: Min Ambiente + Min Agricultura e Mar. Managed by ApC. Being among first applicants establishes precedent.'
+  },
+  {
+    id: 'fa-biodiv', name: 'Nature Conservation & Biodiversity Competitions',
+    programme: 'Fundo Ambiental (Portugal)', ref: 'FA-BIODIV-2026',
+    budget: 'Variable', budgetNum: 500000, perProject: 'Variable', deadline: '2026-12-31',
+    deadlineLabel: 'Rolling 2026', opens: '2026-01-01', duration: '12–24 months', coFinancing: 'Up to 85%',
+    priority: 'medium', priorityNum: 6, status: 'watching', category: 'national',
+    themes: ['Biodiversity', 'Protected areas', 'Community engagement'],
+    fit: 'Good for smaller-scale. Eligible as cooperative/ONGA. Seagrass conservation fits priorities.',
+    consortium: ['Ocean Alive (cooperative)'], consortiumMin: 'Municipalities, NGOs, cooperatives',
+    actions: [
+      { text: 'Monitor ApC for 2026 competition announcements', done: false },
+      { text: 'Prepare modular proposal templates', done: false }
+    ],
+    notes: 'ApC took over from APA in 2026. Good for operational funding while larger grants develop.'
+  },
+  {
+    id: 'he-2027-05', name: 'Blue Forest Ecosystems in European Sea Basins',
+    programme: 'Horizon Europe – Mission Ocean 2027', ref: 'HORIZON-MISS-2027-03-OCEAN-05',
+    budget: '€3.5–4M/project', budgetNum: 3975000, perProject: '€3.5–3.975M (up to 4)', deadline: '2027-09-21',
+    deadlineLabel: '21 September 2027', opens: '2027-02-01', duration: '36–48 months', coFinancing: '100%',
+    priority: 'high', priorityNum: 7, status: 'watching', category: 'eu',
+    themes: ['Blue forest ecosystems', 'Seagrass protection/restoration', 'Large-scale demonstration', 'Multi-basin'],
+    fit: 'VERY HIGH for 2027. Multi-site (Sado+Formosa+Aveiro) = Atlantic basin lead. Programme-level scaling grant. Use 2026 to build evidence.',
+    consortium: ['Ocean Alive (PT)', 'Multi-site PT partners', 'Mediterranean partner', 'Baltic/Nordic', 'Spanish group (ES)'],
+    consortiumMin: '3 EU countries, multi-basin',
+    actions: [
+      { text: 'Use 2026 fieldwork for multi-site evidence', done: false },
+      { text: 'Establish Ria Formosa + Ria de Aveiro contacts', done: false },
+      { text: 'Identify Mediterranean blue forest partner', done: false },
+      { text: 'Begin consortium discussions Q4 2026', done: false }
+    ],
+    notes: 'Long-horizon. Build toward with 2026 fieldwork, Floresta Azul data, OCEAN-01/03 consortium.'
+  },
+  {
+    id: 'interreg', name: 'Interreg Atlantic Area – Ecosystems & Biodiversity',
+    programme: 'Interreg Atlantic Area 2021–2027', ref: 'INTERREG-AA-P3',
+    budget: '75% co-financing', budgetNum: 1500000, perProject: '€1–2.5M typical', deadline: '2026-12-31',
+    deadlineLabel: 'Future calls TBC', opens: 'TBC', duration: '24–36 months', coFinancing: '75%',
+    priority: 'medium', priorityNum: 8, status: 'watching', category: 'eu',
+    themes: ['Atlantic cooperation', 'Biodiversity', 'Blue economy'],
+    fit: 'PT-ES collaboration natural fit. Priority 3 covers Ecosystems, Biodiversity, Blue Economy. Monitor for next call.',
+    consortium: ['Ocean Alive (PT)', 'Spanish group (ES)', 'French partner (FR)', 'Irish partner (IE)'],
+    consortiumMin: '2+ of: PT, ES, FR, IE',
+    actions: [
+      { text: 'Monitor atlanticarea.eu for next call', done: false },
+      { text: 'Identify French and Irish partners', done: false }
+    ],
+    notes: '€113M ERDF programme. 25% co-financing needs matching plan.'
+  },
+  {
+    id: 'emfaf-pt', name: 'EMFAF Portugal – Small-Scale Coastal Fisheries & CLLDs',
+    programme: 'EMFAF Portugal (EU)', ref: 'EMFAF-PT-2021-2027',
+    budget: '€392.6M (PT total)', budgetNum: 500000, perProject: '€50K–500K typical', deadline: '2026-12-31',
+    deadlineLabel: 'Rolling / periodic calls', opens: '2022-01-01', duration: '12–36 months',
+    coFinancing: 'Up to 70%', priority: 'high', priorityNum: 5, status: 'watching', category: 'eu',
+    themes: ['Small-scale fisheries', 'Coastal communities', 'CLLDs', 'Women in fisheries', 'Generational renewal'],
+    fit: 'HIGH – EU primary fisheries fund. PT received €392.6M. Supports small-scale coastal fisheries, CLLDs, women in fisheries, marine biodiversity. Keepers of the Sea fits CLLD model. Managed by DGRM.',
+    consortium: ['Ocean Alive (cooperative)', 'Local Action Group (GAL) for Sado'], consortiumMin: 'Portuguese legal entity',
+    actions: [
+      { text: 'Contact DGRM for current open EMFAF-PT calls', done: false },
+      { text: 'Identify relevant GAL for Sado/Setúbal', done: false },
+      { text: 'Review CLLD strategy for Sado coastal area', done: false },
+      { text: 'Prepare Keepers as CLLD project proposal', done: false }
+    ],
+    notes: 'Apply through DGRM. CLLDs are bottom-up: communities form GAL and co-design strategy. Keepers IS this model. €6.1B total EU programme.'
+  },
+  {
+    id: 'bc-plus', name: 'BC+ Blue Carbon Plus (Conservation International / TNC)',
+    programme: 'ORCA / BC+', ref: 'BC-PLUS-2026',
+    budget: '$50M target', budgetNum: 250000, perProject: 'Variable', deadline: '2026-06-30',
+    deadlineLabel: 'Rolling – next window TBC', opens: '2024-01-01', duration: '24–36 months',
+    coFinancing: '100%', priority: 'high', priorityNum: 9, status: 'watching', category: 'intl',
+    themes: ['Blue carbon business models', 'Seagrass', 'Community solutions', 'VCM credits', 'Scalable models'],
+    fit: 'HIGH – BC+ targets scalable, community-centered business models in seagrass/mangrove/marsh. Ocean Alive VCM methodology + Keepers monitoring = exactly what BC+ seeks. Funded via ORCA ($30M). Ecuador window closes 27 Feb. Future windows may include Atlantic/Europe.',
+    consortium: ['Ocean Alive (cooperative)'], consortiumMin: 'Community-based blue carbon organization',
+    actions: [
+      { text: 'Subscribe to BC+ newsletter for next funding window', done: false },
+      { text: 'Contact BC+ re: European/Atlantic eligibility', done: false },
+      { text: 'Prepare Ocean Alive as replicable blue carbon business model', done: false },
+      { text: 'Document Keepers as scalable verification infrastructure', done: false }
+    ],
+    notes: 'Launched 2024 by CI + TNC via ORCA ($300M+ coalition: Oceankind, Builders Vision, Bloomberg, Packard, Ballmer, Grantham, Rockefeller Brothers, Brin, Rivian). European seagrass model would be distinctive – portfolio currently tropical/mangrove focused.'
+  },
+  {
+    id: 'patagonia', name: 'Patagonia International Environmental Grants',
+    programme: 'Patagonia (1% for the Planet)', ref: 'PAT-INTL-2026',
+    budget: '$5K–$20K', budgetNum: 20000, perProject: '$5,000–$20,000', deadline: '2026-09-30',
+    deadlineLabel: 'Biannual deadlines', opens: '2026-01-01', duration: '12 months',
+    coFinancing: '100%', priority: 'medium', priorityNum: 11, status: 'watching', category: 'corporate',
+    themes: ['Grassroots activism', 'Marine conservation', 'Community-led', 'Direct action'],
+    fit: 'MEDIUM – small grants but strategic. Ocean Alive already has Patagonia relationship (Blue Heart). Portugal NOT in listed eligible countries but existing relationship may open doors via Spain/EU programme.',
+    consortium: ['Ocean Alive (cooperative)'], consortiumMin: 'Environmental NGO',
+    actions: [
+      { text: 'Clarify Portugal eligibility with Patagonia Europe', done: false },
+      { text: 'Leverage Blue Heart relationship for introduction', done: false }
+    ],
+    notes: 'Portugal not in eligible country list. But Patagonia already supports Ocean Alive via Blue Heart. $140M+ donated total via 1% for the Planet.'
+  },
+  {
+    id: 'packard', name: 'Packard Foundation – Ocean Habitats & Communities',
+    programme: 'David & Lucile Packard Foundation', ref: 'PACKARD-OCEAN-2026',
+    budget: '$480M pledged (ocean)', budgetNum: 300000, perProject: '$100K–$1M+', deadline: '2026-12-31',
+    deadlineLabel: 'By invitation / LOI', opens: 'Ongoing', duration: '1–3 years',
+    coFinancing: '100%', priority: 'medium', priorityNum: 13, status: 'watching', category: 'foundation',
+    themes: ['Ocean habitats', 'Community co-management', 'Sustainable fisheries', 'Equity & justice', 'Ocean-climate'],
+    fit: 'MEDIUM-HIGH – $480M for ocean. New strategy centers communities, equity/justice, co-management. Priority geographies: Chile, Indonesia, US, E/SE Asia. Europe not primary but global portfolio supports scaling models worldwide. Co-management + women in fisheries = strong thematic match.',
+    consortium: [], consortiumMin: 'By invitation',
+    actions: [
+      { text: 'Identify Packard ocean programme contacts', done: false },
+      { text: 'Position via ORCA/BC+ network connections', done: false },
+      { text: 'Prepare Keepers as replicable co-management model case', done: false }
+    ],
+    notes: 'One of largest ocean funders globally. Funds through intermediaries. Also: Moore Foundation and Walton Family Foundation releasing revised ocean strategies 2026 – monitor both.'
+  },
+  {
+    id: 'orca-ecosystem', name: 'ORCA Coalition – Blue Carbon & Community Resilience',
+    programme: 'Ocean Resilience & Climate Alliance', ref: 'ORCA-2026',
+    budget: '$300M+ coalition', budgetNum: 200000, perProject: 'Via lead grantees', deadline: '2026-12-31',
+    deadlineLabel: 'Via grantee organizations', opens: 'Ongoing', duration: 'Multi-year',
+    coFinancing: '100%', priority: 'medium', priorityNum: 12, status: 'watching', category: 'intl',
+    themes: ['Blue carbon', 'Community resilience', 'Marine tenure', 'Ocean-climate solutions', 'Frontline communities'],
+    fit: 'MEDIUM – ORCA is the $300M+ umbrella. Funders: Oceankind, Builders Vision, Bloomberg, Packard, Ballmer, Grantham, Rockefeller Brothers, Brin Foundation, Rivian. Director is Alasdair Harris (Blue Ventures founder). 7 focus areas including blue carbon habitat, community resilience, marine tenure. Funds through lead grantees (CI, TNC, Blue Ventures, Oceans North). Connection to this ecosystem = connection to all major ocean philanthropists.',
+    consortium: [], consortiumMin: 'Via implementing partners',
+    actions: [
+      { text: 'Connect with ORCA director Alasdair Harris', done: false },
+      { text: 'Explore Blue Ventures Frontline Community Fund eligibility', done: false },
+      { text: 'Attend ORCA-adjacent events (Our Ocean Conference, COP)', done: false }
+    ],
+    notes: 'ORCA is not direct-apply. It is the ecosystem. Connecting here = connecting to Bloomberg, Packard, Ballmer, Brin, Grantham, Rockefeller Brothers, Rivian Foundation simultaneously. Blue Ventures FCF currently focused on Africa/SE Asia but ORCA is expanding.'
+  },
+  {
+    id: 'bloomberg', name: 'Bloomberg Ocean Initiative',
+    programme: 'Bloomberg Philanthropies', ref: 'BLOOMBERG-OCEAN-2026',
+    budget: '$375M+ since 2014', budgetNum: 200000, perProject: 'Via partners', deadline: '2026-12-31',
+    deadlineLabel: 'Via implementing partners', opens: 'Ongoing', duration: 'Multi-year',
+    coFinancing: '100%', priority: 'low', priorityNum: 14, status: 'watching', category: 'foundation',
+    themes: ['Data-driven fisheries', 'Community co-management', 'Marine policy', 'Transparency'],
+    fit: 'LOW – works through WCS, Oceana, Rare, Global Fishing Watch, Oceans 5. Not direct-apply. Data-driven approach aligns with Ocean Alive verification methodology. Connection via Oceans 5 or Rare (community fisheries).',
+    consortium: [], consortiumMin: 'Via partner organizations',
+    actions: [
+      { text: 'Monitor Oceans 5 for relevant opportunities', done: false },
+      { text: 'Explore connection via Rare (community fisheries)', done: false }
+    ],
+    notes: 'Not direct-apply. Strategic value in methodology alignment – data-driven verification approach. Partners: WCS, Oceana, Rare, GFW, Oceans 5, Blue Ventures, Coral Vita.'
+  },
+  {
+    id: 'oak', name: 'Oak Foundation – Marine Conservation',
+    programme: 'Oak Foundation', ref: 'OAK-MARINE-2026',
+    budget: '$25M+/year (marine)', budgetNum: 250000, perProject: '$50K–$500K', deadline: '2026-12-31',
+    deadlineLabel: 'LOI / invitation', opens: 'Ongoing', duration: '1–3 years',
+    coFinancing: '100%', priority: 'medium', priorityNum: 12, status: 'watching', category: 'foundation',
+    themes: ['MPAs', 'Fisheries reform', 'Community rights', 'Climate-ocean nexus', 'European waters'],
+    fit: 'MEDIUM – Oak funds marine conservation globally including European waters. Supports community rights, fisheries reform, MPAs. Ocean Alive Natura 2000 governance + co-management fits. Based in Geneva – European funding tradition.',
+    consortium: [], consortiumMin: 'By invitation / LOI',
+    actions: [
+      { text: 'Review Oak marine programme priorities', done: false },
+      { text: 'Identify Oak-funded European organizations for introduction', done: false },
+      { text: 'Submit LOI if aligned', done: false }
+    ],
+    notes: 'Major private marine funder. Based in Geneva. Has funded European marine conservation orgs. Approach via LOI.'
+  },
+  {
+    id: 'problue', name: 'PROBLUE – World Bank Blue Economy Trust Fund',
+    programme: 'World Bank / PROBLUE', ref: 'PROBLUE-2026',
+    budget: '$250M+', budgetNum: 200000, perProject: 'Via country programmes', deadline: '2026-12-31',
+    deadlineLabel: 'Via government channels', opens: 'Ongoing', duration: 'Variable',
+    coFinancing: '100%', priority: 'low', priorityNum: 15, status: 'watching', category: 'intl',
+    themes: ['Blue economy', 'Blue carbon readiness', 'Fisheries management', 'Coastal resilience'],
+    fit: 'LOW – PROBLUE targets developing countries. Portugal not typical recipient. Value is in methodology alignment – Ocean Alive seagrass VCM aligns with World Bank Blue Carbon Readiness Framework. Use for standards credibility rather than direct funding.',
+    consortium: [], consortiumMin: 'Via government',
+    actions: [
+      { text: 'Review PROBLUE Blue Carbon Readiness Framework for methodology alignment', done: false },
+      { text: 'Position Ocean Alive model as replicable template', done: false }
+    ],
+    notes: 'Not direct-apply for Portugal. Strategic value: aligning methodology with World Bank standards increases credibility for VCM and international transfer.'
+  },
+  {
+    id: '11th-hour', name: '11th Hour Racing – Ocean Health Grants',
+    programme: '11th Hour Racing / Schmidt Foundation', ref: '11HR-2026',
+    budget: 'Variable', budgetNum: 100000, perProject: '$25K–$250K', deadline: '2026-12-31',
+    deadlineLabel: 'Rolling LOI', opens: 'Ongoing', duration: '12–24 months',
+    coFinancing: '100%', priority: 'low', priorityNum: 14, status: 'watching', category: 'corporate',
+    themes: ['Ocean health', 'Local stewardship', 'Ecosystem restoration', 'Ocean literacy'],
+    fit: 'LOW-MEDIUM – supports ocean health through local stewardship and restoration. Seagrass + community monitoring fits. International eligibility. Connected to Schmidt Ocean Institute for research.',
+    consortium: ['Ocean Alive (cooperative)'], consortiumMin: '501(c)(3) or equivalent',
+    actions: [
+      { text: 'Submit LOI through 11th Hour Racing portal', done: false }
+    ],
+    notes: 'Part of Schmidt Family Foundation. Also connected to Schmidt Ocean Institute for research partnerships.'
+  },
+  {
+    id: 'blue-action', name: 'Blue Action Fund (BMZ/KfW)',
+    programme: 'Blue Action Fund', ref: 'BAF-2026',
+    budget: '€100M+', budgetNum: 500000, perProject: '€500K–€5M', deadline: '2026-12-31',
+    deadlineLabel: 'Periodic calls', opens: 'TBC', duration: '3–5 years',
+    coFinancing: '100%', priority: 'low', priorityNum: 15, status: 'watching', category: 'intl',
+    themes: ['MPAs', 'Sustainable livelihoods', 'Coastal communities', 'Developing countries'],
+    fit: 'LOW – targets developing countries (Africa, Latin America, Asia/Pacific). Portugal not eligible as recipient. Value: methodology transfer to target countries. German government (BMZ) funded.',
+    consortium: [], consortiumMin: 'International conservation NGO',
+    actions: [
+      { text: 'Monitor for advisory/methodology components', done: false }
+    ],
+    notes: 'German development cooperation instrument. Not directly applicable but relevant for international model transfer.'
+  },
+  {
+    id: 'seaforester', name: 'SeaForester / Purina Europe – Ocean Restoration Programme (Phase 2)',
+    programme: 'Purina PetCare Europe', ref: 'PURINA-ORP-2026',
+    budget: 'Corporate investment', budgetNum: 300000, perProject: 'Partnership basis', deadline: '2026-06-30',
+    deadlineLabel: 'Phase 2 scaling begins 2026', opens: '2026-01-01', duration: '2026–2030',
+    coFinancing: 'Corporate funded', priority: 'high', priorityNum: 6, status: 'watching', category: 'corporate',
+    themes: ['Seagrass restoration', 'Marine habitat', 'Measurement framework', 'Scalable solutions', 'European waters'],
+    fit: 'VERY HIGH – Purina Europe\'s Ocean Restoration Programme aims to restore 1,500 hectares of marine habitats by 2030 across Europe. Phase 2 starts 2026 (scaling proven solutions). Partners include SeaForester (PORTUGAL-BASED), Seagrass Consortium (Sea Ranger Service), Oyster Heaven, Urchinomics. They need: measurement frameworks, community engagement, seagrass data, verification. Ocean Alive has 190+ ha mapped seagrass + 4 years monitoring + Guardiãs. DIRECT FIT.',
+    consortium: ['SeaForester (PT – existing Purina partner)', 'Seagrass Consortium', 'Article 13 (advisory)'],
+    consortiumMin: 'Partnership via SeaForester introduction or direct approach',
+    actions: [
+      { text: 'Contact SeaForester (PT-based) re: Ocean Alive collaboration', done: false },
+      { text: 'Prepare Ocean Alive seagrass data package for Purina measurement framework', done: false },
+      { text: 'Position Guardiãs monitoring as verification infrastructure for Phase 2', done: false },
+      { text: 'Propose Sado Estuary as Phase 2 demonstration site', done: false }
+    ],
+    notes: 'TOP CORPORATE OPPORTUNITY. SeaForester is Portugal-based and already a Purina partner. Ocean Alive provides exactly what Phase 2 needs: established seagrass monitoring data, community verification infrastructure, and Natura 2000 site governance. Purina registered as UN Ocean Decade Action. Entry point: SeaForester introduction.'
+  },
+  {
+    id: 'sbep', name: 'Sustainable Blue Economy Partnership (SBEP) – via FCT',
+    programme: 'SBEP / Horizon Europe / FCT', ref: 'SBEP-JTC3-2026',
+    budget: '€43.5M total call', budgetNum: 250000, perProject: '€150–250K (PT share)', deadline: '2026-06-17',
+    deadlineLabel: 'Full proposals Jun 2026 (pre-proposals closed Nov 2025)', opens: '2025-09-01', duration: '36 months',
+    coFinancing: '100%', priority: 'medium', priorityNum: 10, status: 'watching', category: 'eu',
+    themes: ['Resilient coastal communities', 'Blue bioresources', 'Climate-smart planning', 'Digital ocean', 'Sustainable fisheries'],
+    fit: 'MEDIUM-HIGH – Third SBEP call. Priority Area 5: "Resilient Coastal Communities and Businesses" directly fits. FCT committed €1M. Pre-proposals were due Nov 2025 (may have been missed for this round). BUT: 3 more calls planned (annual through 2028). Position for Call 4 (Sep 2026). FCT + DGPM + AIR Centre + CCDRC are PT partners in SBEP.',
+    consortium: ['MARE/CCMAR (PT)', 'Ocean Alive (PT)', 'EU transnational partners'], consortiumMin: '2+ EU sea basins',
+    actions: [
+      { text: 'Check if pre-proposal was submitted for Call 3 via any consortium', done: false },
+      { text: 'If missed Call 3: position for Call 4 (expected Sep 2026)', done: false },
+      { text: 'Contact FCT SBEP focal point re: Ocean Alive eligibility', done: false },
+      { text: 'Identify Atlantic+Mediterranean consortium partners', done: false }
+    ],
+    notes: 'SBEP runs 6 annual calls (2023–2028). €43.5M per call, 38 countries. FCT provides €150–250K for PT participants. Call 3 pre-proposals due Nov 2025 (may have passed). Call 4 expected Sep 2026. Priority 5 (Resilient Coastal Communities) is perfect fit. Projects must cover min 2 EU sea basins – Atlantic + Mediterranean works for Sado + Ria Formosa.'
+  },
+  {
+    id: 'ocean14', name: 'Ocean 14 Capital – Blue Economy Investment Fund',
+    programme: 'Ocean 14 Capital Fund I', ref: 'O14C-2026',
+    budget: '€201M fund', budgetNum: 0, perProject: 'PE growth investment', deadline: '2026-12-31',
+    deadlineLabel: 'Ongoing investment cycle', opens: 'Ongoing', duration: 'Growth equity',
+    coFinancing: 'Equity investment', priority: 'low', priorityNum: 16, status: 'watching', category: 'corporate',
+    themes: ['Blue economy', 'Marine ecosystem protection', 'Sustainable fisheries', 'Ocean innovation'],
+    fit: 'LOW for Ocean Alive directly (PE fund targets growth companies). Investors include EIF, Builders Initiative, Minderoo Foundation, Monaco Reserve Fund. Understanding this fund helps position blue carbon verification as investable infrastructure. Ocean Alive as implementation partner rather than investee.',
+    consortium: [], consortiumMin: 'Growth-stage companies',
+    actions: [
+      { text: 'Monitor O14C portfolio for partnership opportunities', done: false }
+    ],
+    notes: 'Not a grant – private equity. Relevance: demonstrates investor appetite for blue economy at scale. Builders Initiative is also ORCA anchor funder. The ecosystem interconnects.'
+  },
+  {
+    id: 'wef-bcap', name: 'WEF Blue Carbon Action Partnership (BCAP)',
+    programme: 'World Economic Forum / UK Government', ref: 'WEF-BCAP-2026',
+    budget: '£4M+ (UK gov seed)', budgetNum: 100000, perProject: 'Via country programmes', deadline: '2026-12-31',
+    deadlineLabel: 'Via partnership channels', opens: '2023-01-01', duration: 'Multi-year',
+    coFinancing: '100%', priority: 'low', priorityNum: 15, status: 'watching', category: 'intl',
+    themes: ['Blue carbon policy', 'VCM methodology', 'Government-business nexus', 'Carbon credits'],
+    fit: 'LOW-MEDIUM – BCAP helps governments work with businesses to develop blue carbon plans. Methodology alignment with Floresta Azul and Ocean Alive VCM work. Corporate partners include Apple and Salesforce (blue carbon credit buyers). Not direct funding but policy/methodology credibility.',
+    consortium: [], consortiumMin: 'Via WEF partnership network',
+    actions: [
+      { text: 'Review BCAP framework for methodology alignment', done: false },
+      { text: 'Monitor for Portugal engagement or Atlantic focus', done: false }
+    ],
+    notes: 'WEF instrument. Value is in methodology standards and connecting to corporate blue carbon credit demand (Apple, Salesforce). Positions Ocean Alive verification as infrastructure these corporations need.'
+  },
+  {
+    id: 'minderoo', name: 'Minderoo Foundation – Flourishing Oceans',
+    programme: 'Minderoo Foundation', ref: 'MINDEROO-2026',
+    budget: '$100M+ committed', budgetNum: 200000, perProject: 'Variable', deadline: '2026-12-31',
+    deadlineLabel: 'By invitation / partnership', opens: 'Ongoing', duration: 'Multi-year',
+    coFinancing: '100%', priority: 'low', priorityNum: 14, status: 'watching', category: 'foundation',
+    themes: ['Overfishing', 'Ocean health', 'Marine monitoring', 'Data-driven conservation'],
+    fit: 'LOW – Minderoo\'s Flourishing Oceans supports Global Fishing Index, marine monitoring, and ending overfishing. Data-driven approach aligns with Ocean Alive methodology but geographic focus is global/developing. Also invests in Ocean 14 Capital. Value: ecosystem connection.',
+    consortium: [], consortiumMin: 'By invitation',
+    actions: [
+      { text: 'Monitor Minderoo for European/seagrass-relevant programmes', done: false }
+    ],
+    notes: 'Australian foundation (Andrew Forrest). Major ocean funder. Also investors in Ocean 14 Capital. Connected to ORCA ecosystem via Builders Initiative.'
+  },
+  // === ESTUARINE PARK FUNDING ===
+  {
+    id: 'gulbenkian', name: 'Fundação Calouste Gulbenkian – Sustainability Programme',
+    programme: 'Gulbenkian', ref: 'GULB-2026',
+    budget: '€5M+/year (sustainability)', budgetNum: 100000, perProject: '€20K–200K', deadline: '2026-09-30',
+    deadlineLabel: 'Annual calls + rolling', opens: '2026-01-01', duration: '12–24 months',
+    coFinancing: '100%', priority: 'medium', priorityNum: 10, status: 'watching', category: 'foundation',
+    themes: ['Sustainability', 'Cultural heritage', 'Community development', 'Youth', 'Arts'],
+    fit: 'HIGH – Gulbenkian funds Portuguese cultural and sustainability projects. Estuarine Park combines both: ceramics (cultural heritage), Sentinela youth programme, community economic development. Kiln and workshop infrastructure fit their arts funding.',
+    consortium: ['Ocean Alive (cooperative)'], consortiumMin: 'Portuguese NGO or cultural organisation',
+    actions: [
+      { text: 'Review current Gulbenkian sustainability call criteria', done: false },
+      { text: 'Prepare ceramics/data-art tile programme as cultural heritage project', done: false },
+      { text: 'Contact Gulbenkian sustainability programme officer', done: false }
+    ],
+    notes: 'Portugal\'s largest private foundation. Funds culture + sustainability. Data-art tiles = perfect intersection. Also funds Oceano Azul / Oceanário.'
+  },
+  {
+    id: 'creative-europe', name: 'EU Creative Europe MEDIA – Documentary & Youth',
+    programme: 'Creative Europe / MEDIA', ref: 'CE-MEDIA-2026',
+    budget: '€2.44B (2021–2027)', budgetNum: 50000, perProject: '€50K–300K', deadline: '2026-12-31',
+    deadlineLabel: 'Annual calls', opens: 'TBC', duration: '12–36 months',
+    coFinancing: '70–80%', priority: 'medium', priorityNum: 11, status: 'watching', category: 'eu',
+    themes: ['Documentary', 'Film production', 'Youth media', 'Cultural heritage', 'Cross-border collaboration'],
+    fit: 'MEDIUM-HIGH – Sentinela professional film track produces 60–90 sec verification films + Year 3 feature documentary. MEDIA sub-programme funds development, production, distribution. ICA Portugal is national desk.',
+    consortium: ['Ocean Alive + production partner'], consortiumMin: 'EU audiovisual company or organisation',
+    actions: [
+      { text: 'Contact ICA Portugal re: Creative Europe MEDIA eligibility', done: false },
+      { text: 'Identify Portuguese documentary production partner', done: false }
+    ],
+    notes: 'ICA (Instituto do Cinema e do Audiovisual) is Portugal\'s MEDIA desk. Sentinela films + feature documentary are eligible outputs.'
+  },
+  {
+    id: 'turismo-pt', name: 'Turismo de Portugal – Sustainable Tourism Innovation',
+    programme: 'Turismo de Portugal', ref: 'TUR-PT-2026',
+    budget: 'Variable', budgetNum: 50000, perProject: '€10K–100K', deadline: '2026-12-31',
+    deadlineLabel: 'Periodic calls + partnerships', opens: 'Ongoing', duration: '12 months',
+    coFinancing: 'Variable', priority: 'medium', priorityNum: 10, status: 'watching', category: 'national',
+    themes: ['Nature tourism', 'Sustainable tourism', 'Community tourism', 'Innovation', 'Alentejo/Setúbal'],
+    fit: 'HIGH – Turismo de Portugal promotes sustainable nature tourism. Estuarine Park is exactly this: community-based, nature-immersive, data-verified. Setúbal/Alentejo region is a tourism development priority.',
+    consortium: ['Ocean Alive (cooperative)'], consortiumMin: 'Portuguese tourism entity',
+    actions: [
+      { text: 'Contact Turismo de Portugal regional office (Alentejo/Ribatejo)', done: false },
+      { text: 'Register Estuarine Park as tourism product in development', done: false }
+    ],
+    notes: 'Multiple programmes: Valorizar, Inovar, Qualificar. Estuarine Park fits Valorizar (heritage valorisation) and Inovar (innovation in tourism).'
+  },
+  {
+    id: 'erasmus-youth', name: 'Erasmus+ Youth & Sport – Key Action 2',
+    programme: 'Erasmus+ / EACEA', ref: 'ERASMUS-KA2-2026',
+    budget: '€26.2B total (2021–2027)', budgetNum: 75000, perProject: '€50K–400K', deadline: '2026-10-31',
+    deadlineLabel: 'Annual calls (Oct deadline typical)', opens: '2026-03-01', duration: '12–36 months',
+    coFinancing: '100%', priority: 'medium', priorityNum: 10, status: 'watching', category: 'eu',
+    themes: ['Youth participation', 'Environmental education', 'Skills development', 'Cross-border exchange', 'Social inclusion'],
+    fit: 'HIGH – Sentinela programme is an apprenticeship for youth aged 16–25. Erasmus+ KA2 funds cooperation partnerships for youth. Cross-border element: Portuguese Sentinelas + EarthEcho USA / Global CoLab / Bow Seat. Environmental education + vocational skills.',
+    consortium: ['Ocean Alive (PT)', 'EarthEcho or Bow Seat (USA)', 'EU partner TBC'], consortiumMin: '2+ countries, youth focus',
+    actions: [
+      { text: 'Contact Agência Nacional Erasmus+ Juventude', done: false },
+      { text: 'Explore Sentinela as Erasmus+ cooperation partnership', done: false },
+      { text: 'Identify EU youth partner organisation for consortium', done: false }
+    ],
+    notes: 'Sentinela = paid youth environmental apprenticeship. Film, ecology, data, ceramics tracks. Erasmus+ KA2 partnerships fund exactly this structure. Portuguese NA: Agência Nacional Erasmus+ Juventude em Ação.'
+  },
+  {
+    id: 'ashoka-eg', name: 'Ashoka / Echoing Green – Social Enterprise Fellowships',
+    programme: 'Ashoka + Echoing Green', ref: 'ASHOKA-EG-2026',
+    budget: 'Ashoka: lifetime fellowship. EG: $100K seed.', budgetNum: 100000, perProject: '$80K–$100K', deadline: '2026-10-31',
+    deadlineLabel: 'Rolling (Ashoka) / Annual Oct (EG)', opens: '2026-06-01', duration: '18–24 months',
+    coFinancing: '100%', priority: 'medium', priorityNum: 11, status: 'watching', category: 'intl',
+    themes: ['Social entrepreneurship', 'Systems change', 'Community empowerment', 'Environmental innovation'],
+    fit: 'MEDIUM-HIGH – Estuarine Park as social enterprise. Ashoka requires founder with systems-change track record. Echoing Green wants early-stage, measurable impact. Park model + Guardiãs + data-art tiles = strong narrative.',
+    consortium: ['Park founder / Ocean Alive lead'], consortiumMin: 'Individual social entrepreneur',
+    actions: [
+      { text: 'Monitor Echoing Green 2027 cycle (opens ~Sep 2026)', done: false },
+      { text: 'Prepare Ashoka self-nomination or peer nomination', done: false }
+    ],
+    notes: 'Ashoka: rolling nominations, lifetime network. Echoing Green: annual cycle, $100K seed + 18 months support. Both want someone who changes systems, not just runs programmes.'
+  }
+];
+
+const STATUSES = [
+  { key: 'watching', label: 'Watching', cls: 'status-watching' },
+  { key: 'preparing', label: 'Preparing', cls: 'status-preparing' },
+  { key: 'drafting', label: 'Drafting', cls: 'status-drafting' },
+  { key: 'submitted', label: 'Submitted', cls: 'status-submitted' },
+  { key: 'missed', label: 'Missed', cls: 'status-missed' }
+];
+
+const today = new Date('2026-02-24');
+function daysUntil(d) { return Math.ceil((new Date(d) - today) / 864e5); }
+function fmtCD(d) {
+  const n = daysUntil(d);
+  if (n < 0) return { t: `${Math.abs(n)}d ago`, c: 'urgent' };
+  if (n <= 30) return { t: `${n}d`, c: 'urgent' };
+  if (n <= 90) return { t: `${n}d`, c: 'soon' };
+  return { t: `${n}d`, c: 'comfortable' };
+}
+function monthOf(d) { return new Date(d).toLocaleDateString('en-US',{month:'long',year:'numeric'}); }
+function prioLabel(p) { return {critical:'Critical',high:'High',medium:'Medium',low:'Low'}[p]||p; }
+function catLabel(c) { return {eu:'EU',national:'National (PT)',intl:'International/Multilateral',corporate:'Corporate',foundation:'Private Foundation'}[c]||c; }
+
+function App() {
+  const [tab, setTab] = useState('timeline');
+  const [grants, setGrants] = useState(GRANTS);
+  const [sel, setSel] = useState(null);
+  const [filt, setFilt] = useState('all');
+  const [lang, setLang] = useState('en');
+
+  const T = useMemo(() => {
+    const dict = {
+      title: { en: 'Grant Calendar & Funding Management', pt: 'Calendário de Subvenções e Gestão de Financiamento' },
+      subtitle: { en: 'Verification architecture – funding pipeline tracker', pt: 'Arquitectura de verificação – rastreador de financiamento' },
+      timeline: { en: 'Timeline', pt: 'Cronograma' },
+      pipeline: { en: 'Pipeline', pt: 'Pipeline' },
+      actions: { en: 'Actions', pt: 'Acções' },
+      budgetMap: { en: 'Budget Map', pt: 'Mapa Orçamental' },
+      strategy: { en: 'Strategy Notes', pt: 'Notas Estratégicas' },
+      totalPipeline: { en: 'Total Pipeline', pt: 'Pipeline Total' },
+      criticalGrants: { en: 'Critical Priority', pt: 'Prioridade Crítica' },
+      urgentDeadlines: { en: 'Urgent (<60d)', pt: 'Urgente (<60d)' },
+      actionProgress: { en: 'Action Progress', pt: 'Progresso das Acções' },
+      acrossGrants: { en: 'across all grants', pt: 'em todas as subvenções' },
+      within60d: { en: 'within 60 days', pt: 'dentro de 60 dias' },
+      tasksComplete: { en: 'tasks complete', pt: 'tarefas completas' },
+      priority: { en: 'Priority', pt: 'Prioridade' },
+      all: { en: 'All', pt: 'Todos' },
+      critical: { en: 'Critical', pt: 'Crítico' },
+      high: { en: 'High', pt: 'Alto' },
+      medium: { en: 'Medium', pt: 'Médio' },
+      low: { en: 'Low', pt: 'Baixo' },
+      deadline: { en: 'Deadline', pt: 'Prazo' },
+      budget: { en: 'Budget', pt: 'Orçamento' },
+      status: { en: 'Status', pt: 'Estado' },
+      fit: { en: 'Fit Assessment', pt: 'Avaliação de Adequação' },
+      themes: { en: 'Themes', pt: 'Temas' },
+      consortium: { en: 'Consortium', pt: 'Consórcio' },
+      actionItems: { en: 'Action Items', pt: 'Itens de Acção' },
+      notes: { en: 'Notes', pt: 'Notas' },
+      watching: { en: 'Watching', pt: 'A Monitorizar' },
+      preparing: { en: 'Preparing', pt: 'Em Preparação' },
+      drafting: { en: 'Drafting', pt: 'Em Redacção' },
+      submitted: { en: 'Submitted', pt: 'Submetido' },
+      missed: { en: 'Missed', pt: 'Expirado' },
+      perProject: { en: 'Per project', pt: 'Por projecto' },
+      coFinancing: { en: 'Co-financing', pt: 'Co-financiamento' },
+      duration: { en: 'Duration', pt: 'Duração' },
+      category: { en: 'Category', pt: 'Categoria' },
+      eu: { en: 'EU', pt: 'UE' },
+      national: { en: 'National (PT)', pt: 'Nacional (PT)' },
+      intl: { en: 'International/Multilateral', pt: 'Internacional/Multilateral' },
+      corporate: { en: 'Corporate', pt: 'Corporativo' },
+      foundation: { en: 'Private Foundation', pt: 'Fundação Privada' },
+    };
+    return (key) => (dict[key] && dict[key][lang]) || key;
+  }, [lang]);
+
+  const filtered = useMemo(() => {
+    let g = [...grants];
+    if (filt !== 'all') g = g.filter(x => x.priority === filt);
+    return g;
+  }, [grants, filt]);
+
+  const byDeadline = useMemo(() => [...filtered].sort((a,b) => new Date(a.deadline)-new Date(b.deadline)), [filtered]);
+  const byPrio = useMemo(() => [...filtered].sort((a,b) => a.priorityNum-b.priorityNum), [filtered]);
+
+  const updateStatus = useCallback((id, s) => {
+    setGrants(p => p.map(g => g.id===id?{...g,status:s}:g));
+    if (sel?.id===id) setSel(p=>({...p,status:s}));
+  }, [sel]);
+
+  const toggleAction = useCallback((gid, ai) => {
+    setGrants(p => p.map(g => {
+      if (g.id!==gid) return g;
+      const a=[...g.actions]; a[ai]={...a[ai],done:!a[ai].done}; return {...g,actions:a};
+    }));
+    if (sel?.id===gid) setSel(p=>{const a=[...p.actions];a[ai]={...a[ai],done:!a[ai].done};return{...p,actions:a};});
+  }, [sel]);
+
+  const totalPipe = grants.reduce((s,g)=>s+g.budgetNum,0);
+  const critCount = grants.filter(g=>g.priority==='critical').length;
+  const urgCount = grants.filter(g=>{const d=daysUntil(g.deadline);return d<=60&&d>0;}).length;
+  const totalAct = grants.reduce((s,g)=>s+g.actions.length,0);
+  const doneAct = grants.reduce((s,g)=>s+g.actions.filter(a=>a.done).length,0);
+
+  return React.createElement('div', null,
+    React.createElement('header', {className:'app-header'},
+      React.createElement('div', {className:'header-content'},
+        React.createElement('div', {className:'header-brand'},
+          React.createElement('h1', null, T('title')),
+          React.createElement('span', {className:'brand-tag'}, 'Ocean Alive'),
+          React.createElement('button', {
+            onClick: () => setLang(l => l==='en'?'pt':'en'),
+            style: {marginLeft:'0.8rem',fontFamily:'JetBrains Mono,monospace',fontSize:'0.65rem',padding:'0.2rem 0.6rem',borderRadius:'3px',border:'1px solid rgba(255,255,255,0.3)',background:'rgba(255,255,255,0.1)',color:'white',cursor:'pointer',letterSpacing:'0.1em',fontWeight:600}
+          }, lang==='en'?'PT 🇵🇹':'EN 🇬🇧')
+        ),
+        React.createElement('div', {className:'header-subtitle'}, T('subtitle'))
+      )
+    ),
+    React.createElement('nav', {className:'nav-bar'},
+      React.createElement('div', {className:'nav-inner'},
+        ['timeline','pipeline','actions','budget','strategy'].map(t =>
+          React.createElement('button', {key:t, className:`nav-tab ${tab===t?'active':''}`, onClick:()=>setTab(t)},
+            {timeline:T('timeline'),pipeline:T('pipeline'),actions:T('actions'),budget:T('budgetMap'),strategy:T('strategy')}[t]
+          )
+        )
+      )
+    ),
+    React.createElement('main', {className:'main-content'},
+      React.createElement('div', {className:'pipeline-stats'},
+        React.createElement('div', {className:'stat-card highlight'},
+          React.createElement('div', {className:'stat-label'}, T('totalPipeline')),
+          React.createElement('div', {className:'stat-value'}, `€${(totalPipe/1e6).toFixed(1)}M`),
+          React.createElement('div', {className:'stat-sub'}, `${grants.length} ${lang==='pt'?'oportunidades rastreadas':'opportunities tracked'}`)
+        ),
+        React.createElement('div', {className:'stat-card urgent'},
+          React.createElement('div', {className:'stat-label'}, T('criticalGrants')),
+          React.createElement('div', {className:'stat-value'}, critCount),
+          React.createElement('div', {className:'stat-sub'}, 'Floresta Azul + OCEAN-03')
+        ),
+        React.createElement('div', {className:'stat-card amber-card'},
+          React.createElement('div', {className:'stat-label'}, lang==='pt'?'Prazos ≤60 Dias':'Deadlines ≤60 Days'),
+          React.createElement('div', {className:'stat-value'}, urgCount),
+          React.createElement('div', {className:'stat-sub'}, lang==='pt'?'requerem atenção imediata':'requiring attention now')
+        ),
+        React.createElement('div', {className:'stat-card success'},
+          React.createElement('div', {className:'stat-label'}, lang==='pt'?'Progresso das Acções':'Actions Progress'),
+          React.createElement('div', {className:'stat-value'}, `${doneAct}/${totalAct}`),
+          React.createElement('div', {className:'stat-sub'}, `${totalAct>0?Math.round(doneAct/totalAct*100):0}% ${lang==='pt'?'completo':'complete'}`)
+        )
+      ),
+      tab==='timeline' && React.createElement(TimelineView, {grants:byDeadline, onSelect:setSel, lang}),
+      tab==='pipeline' && React.createElement(PipelineView, {grants:byPrio, onSelect:setSel, filt, setFilt, lang, T}),
+      tab==='actions' && React.createElement(ActionsView, {grants, onToggle:toggleAction, lang}),
+      tab==='budget' && React.createElement(BudgetView, {grants, lang}),
+      tab==='strategy' && React.createElement(StrategyView, {lang})
+    ),
+    sel && React.createElement(DetailPanel, {grant:sel, onClose:()=>setSel(null), onStatus:updateStatus, onToggle:toggleAction, lang, T})
+  );
+}
+
+function TimelineView({grants, onSelect}) {
+  const byMonth = useMemo(() => {
+    const m = {}; grants.forEach(g => { const k=monthOf(g.deadline); if(!m[k])m[k]=[]; m[k].push(g); });
+    return Object.entries(m);
+  }, [grants]);
+
+  return React.createElement('div', {className:'timeline-container'},
+    React.createElement('div', {className:'timeline-header'},
+      React.createElement('h2', {className:'timeline-title'}, 'Funding Timeline'),
+      React.createElement('div', {className:'timeline-legend'},
+        [['var(--coral)','Critical'],['var(--dx)','High'],['var(--a)','Medium'],['var(--sand)','Low']].map(([c,l]) =>
+          React.createElement('div', {key:l, className:'legend-item'},
+            React.createElement('div', {className:'legend-dot', style:{background:c}}), l
+          )
+        )
+      )
+    ),
+    byMonth.map(([month, items]) =>
+      React.createElement('div', {key:month, className:'month-lane'},
+        React.createElement('div', {className:'month-label'}, month),
+        React.createElement('div', {className:'month-grants'},
+          items.map(g => {
+            const cd = fmtCD(g.deadline);
+            const st = STATUSES.find(s=>s.key===g.status);
+            return React.createElement('div', {key:g.id, className:`grant-bar priority-${g.priority}`, onClick:()=>onSelect(g)},
+              React.createElement('div', {className:`grant-bar-priority ${g.priority}`}),
+              React.createElement('div', {className:'grant-bar-info'},
+                React.createElement('div', {className:'grant-bar-name'}, g.name),
+                React.createElement('div', {className:'grant-bar-programme'}, g.programme)
+              ),
+              React.createElement('div', {className:'grant-bar-meta'},
+                React.createElement('span', {className:'grant-bar-amount'}, g.budget),
+                React.createElement('span', {className:'grant-bar-deadline'}, g.deadlineLabel),
+                React.createElement('span', {className:`countdown ${cd.c}`}, cd.t),
+                React.createElement('span', {className:`grant-bar-status ${st?.cls}`}, st?.label)
+              )
+            );
+          })
+        )
+      )
+    )
+  );
+}
+
+function PipelineView({grants, onSelect, filt, setFilt}) {
+  return React.createElement('div', null,
+    React.createElement('div', {className:'export-bar'},
+      ['all','critical','high','medium','low'].map(f =>
+        React.createElement('button', {key:f, className:'export-btn',
+          style:filt===f?{borderColor:'var(--dx)',color:'var(--dx)',fontWeight:700}:{},
+          onClick:()=>setFilt(f)}, f==='all'?'All':prioLabel(f))
+      )
+    ),
+    React.createElement('table', {className:'pipeline-table'},
+      React.createElement('thead', null,
+        React.createElement('tr', null,
+          ['#','Grant','Programme','Budget','Deadline','Days','Status','Tasks'].map(h =>
+            React.createElement('th', {key:h}, h)
+          )
+        )
+      ),
+      React.createElement('tbody', null,
+        grants.map(g => {
+          const cd = fmtCD(g.deadline);
+          const done = g.actions.filter(a=>a.done).length;
+          const st = STATUSES.find(s=>s.key===g.status);
+          return React.createElement('tr', {key:g.id, onClick:()=>onSelect(g)},
+            React.createElement('td', null,
+              React.createElement('div', {className:'td-priority'},
+                React.createElement('div', {className:`grant-bar-priority ${g.priority}`}), g.priorityNum
+              )
+            ),
+            React.createElement('td', {style:{fontWeight:600,maxWidth:'220px'}}, g.name),
+            React.createElement('td', {style:{fontSize:'0.72rem',color:'var(--sm)'}}, g.programme),
+            React.createElement('td', {style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.72rem',fontWeight:600,color:'var(--g)'}}, g.budget),
+            React.createElement('td', {style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.7rem'}}, g.deadlineLabel),
+            React.createElement('td', null, React.createElement('span', {className:`countdown ${cd.c}`}, cd.t)),
+            React.createElement('td', null, React.createElement('span', {className:`grant-bar-status ${st?.cls}`}, st?.label)),
+            React.createElement('td', {style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.7rem'}}, `${done}/${g.actions.length}`)
+          );
+        })
+      )
+    )
+  );
+}
+
+function ActionsView({grants, onToggle}) {
+  const urgent=[], active=[], watching=[];
+  grants.forEach(g => g.actions.forEach((a,i) => {
+    const item = {...a, gid:g.id, gname:g.name, gprio:g.priority, gstat:g.status, ai:i, dl:g.deadlineLabel};
+    if (g.priority==='critical'&&!a.done) urgent.push(item);
+    else if ((g.status==='preparing'||g.status==='drafting')&&!a.done) active.push(item);
+    else watching.push(item);
+  }));
+
+  function Section({title,icon,color,items}) {
+    if (!items.length) return null;
+    return React.createElement('div', {className:'action-section'},
+      React.createElement('div', {className:'action-section-header'},
+        React.createElement('div', {className:'action-section-icon', style:{background:color}}, icon),
+        React.createElement('h3', {className:'action-section-title'}, title),
+        React.createElement('span', {className:'action-count'}, items.length)
+      ),
+      items.map((item,i) =>
+        React.createElement('div', {key:`${item.gid}-${item.ai}-${i}`, className:'action-card'},
+          React.createElement('div', {className:`action-check ${item.done?'checked':''}`, onClick:()=>onToggle(item.gid,item.ai)}, item.done?'✓':''),
+          React.createElement('div', {className:'action-content'},
+            React.createElement('div', {className:`action-text ${item.done?'completed':''}`}, item.text),
+            React.createElement('div', {className:'action-meta'},
+              React.createElement('span', {className:'action-grant-tag'}, item.gname),
+              React.createElement('span', null, item.dl)
+            )
+          )
+        )
+      )
+    );
+  }
+
+  return React.createElement('div', null,
+    React.createElement(Section, {title:'Urgent – Critical Priority', icon:'!', color:'var(--coral)', items:urgent}),
+    React.createElement(Section, {title:'In Progress – Preparing / Drafting', icon:'›', color:'var(--dx)', items:active}),
+    React.createElement(Section, {title:'Watching – Future Actions', icon:'·', color:'var(--sand)', items:watching})
+  );
+}
+
+function BudgetView({grants}) {
+  const eu = grants.filter(g=>g.category==='eu').sort((a,b)=>b.budgetNum-a.budgetNum);
+  const nat = grants.filter(g=>g.category==='national').sort((a,b)=>b.budgetNum-a.budgetNum);
+  const intl = grants.filter(g=>g.category==='intl'||g.category==='corporate'||g.category==='foundation').sort((a,b)=>b.budgetNum-a.budgetNum);
+  const euT = eu.reduce((s,g)=>s+g.budgetNum,0);
+  const natT = nat.reduce((s,g)=>s+g.budgetNum,0);
+  const intlT = intl.reduce((s,g)=>s+g.budgetNum,0);
+  const tot = euT+natT+intlT;
+  const colors = {critical:'var(--coral)',high:'var(--dx)',medium:'var(--a)',low:'var(--sand)'};
+
+  function BudgetBars({items, max, title, subtotal, subtotalColor}) {
+    return React.createElement('div', {className:'budget-card'},
+      React.createElement('div', {className:'budget-card-title'}, title),
+      items.map(g =>
+        React.createElement('div', {key:g.id, className:'budget-bar-container'},
+          React.createElement('div', {className:'budget-bar-label'},
+            React.createElement('span', null, g.name),
+            React.createElement('span', {style:{color:colors[g.priority]}}, `€${(g.budgetNum/1e6).toFixed(2)}M`)
+          ),
+          React.createElement('div', {className:'budget-bar-track'},
+            React.createElement('div', {className:'budget-bar-fill', style:{width:`${Math.min(100,g.budgetNum/max*100)}%`, background:colors[g.priority]}})
+          )
+        )
+      ),
+      React.createElement('div', {style:{marginTop:'1rem',paddingTop:'0.8rem',borderTop:'1px solid var(--bdr-l)'}},
+        React.createElement('div', {className:'budget-bar-label'},
+          React.createElement('span', {style:{fontWeight:700}}, 'Subtotal'),
+          React.createElement('span', {style:{fontWeight:700,color:subtotalColor}}, `€${(subtotal/1e6).toFixed(2)}M`)
+        )
+      )
+    );
+  }
+
+  return React.createElement('div', null,
+    React.createElement('div', {className:'budget-overview'},
+      React.createElement(BudgetBars, {items:eu, max:8e6, title:'EU & Structural Pipeline', subtotal:euT, subtotalColor:'var(--dx)'}),
+      React.createElement('div', null,
+        React.createElement(BudgetBars, {items:nat, max:2e6, title:'National Portuguese Pipeline', subtotal:natT, subtotalColor:'var(--g)'}),
+        React.createElement('div', {style:{marginTop:'1rem',padding:'1rem',background:'var(--pnl)',borderRadius:'var(--radius)',fontSize:'0.78rem',lineHeight:1.5}},
+          React.createElement('strong', {style:{fontFamily:"'EB Garamond',serif"}}, 'Realistic Capture Target (EU/National)'),
+          React.createElement('br'),
+          'Probability-weighted partner share estimates:',
+          React.createElement('div', {style:{marginTop:'0.5rem',fontFamily:"'JetBrains Mono',monospace",fontSize:'0.72rem'}},
+            'Floresta Azul: €200–500K (high prob.)', React.createElement('br'),
+            'OCEAN-03 share: €500K–1.5M (medium)', React.createElement('br'),
+            'OCEAN-01 share: €500K–1M (medium)', React.createElement('br'),
+            'LIFE SAP: €500K–1.5M (med-low)', React.createElement('br'),
+            'EMFAF CLLD: €50–200K (medium-high)', React.createElement('br'),
+            'FA competitions: €50–200K (high prob.)'
+          ),
+          React.createElement('div', {style:{marginTop:'0.5rem',fontWeight:700}}, 'Realistic 18-month range: €800K–€5.1M')
+        )
+      )
+    ),
+    React.createElement(BudgetBars, {items:intl, max:500000, title:'International / Corporate / Foundation Pipeline', subtotal:intlT, subtotalColor:'var(--purple)'}),
+    React.createElement('div', {style:{marginTop:'0.5rem',padding:'1rem',background:'white',borderRadius:'var(--radius)',fontSize:'0.78rem',lineHeight:1.5,boxShadow:'var(--shadow-sm)'}},
+      React.createElement('strong', {style:{fontFamily:"'EB Garamond',serif"}}, 'International Pipeline Note'),
+      React.createElement('br'),
+      'Most international/foundation/corporate sources are by invitation or LOI, not open calls. Budget figures represent realistic per-grant targets, not programme totals. The primary value of this layer is ecosystem positioning – connecting Ocean Alive to the ORCA/Packard/Bloomberg philanthropic network opens multiple doors simultaneously. BC+ and EMFAF CLLDs are the most directly actionable.'
+    ),
+    React.createElement('div', {className:'budget-card', style:{marginTop:'1.5rem'}},
+      React.createElement('div', {className:'budget-card-title'}, 'Combined Pipeline – All Sources'),
+      React.createElement('div', {className:'budget-bar-container'},
+        React.createElement('div', {className:'budget-bar-label'},
+          React.createElement('span', null, 'EU & Structural'),
+          React.createElement('span', {style:{color:'var(--dx)'}}, `€${(euT/1e6).toFixed(1)}M (${Math.round(euT/tot*100)}%)`)
+        ),
+        React.createElement('div', {className:'budget-bar-track', style:{height:12}},
+          React.createElement('div', {className:'budget-bar-fill', style:{width:`${euT/tot*100}%`,background:'var(--dx)'}})
+        )
+      ),
+      React.createElement('div', {className:'budget-bar-container'},
+        React.createElement('div', {className:'budget-bar-label'},
+          React.createElement('span', null, 'National Portuguese'),
+          React.createElement('span', {style:{color:'var(--g)'}}, `€${(natT/1e6).toFixed(1)}M (${Math.round(natT/tot*100)}%)`)
+        ),
+        React.createElement('div', {className:'budget-bar-track', style:{height:12}},
+          React.createElement('div', {className:'budget-bar-fill', style:{width:`${natT/tot*100}%`,background:'var(--g)'}})
+        )
+      ),
+      React.createElement('div', {className:'budget-bar-container'},
+        React.createElement('div', {className:'budget-bar-label'},
+          React.createElement('span', null, 'International / Corporate / Foundation'),
+          React.createElement('span', {style:{color:'var(--purple)'}}, `€${(intlT/1e6).toFixed(1)}M (${Math.round(intlT/tot*100)}%)`)
+        ),
+        React.createElement('div', {className:'budget-bar-track', style:{height:12}},
+          React.createElement('div', {className:'budget-bar-fill', style:{width:`${intlT/tot*100}%`,background:'var(--purple)'}})
+        )
+      ),
+      React.createElement('div', {style:{textAlign:'right',marginTop:'0.5rem',fontFamily:"'JetBrains Mono',monospace",fontSize:'0.85rem',fontWeight:700,color:'var(--dx-l)'}},
+        `Grand Total Pipeline: €${(tot/1e6).toFixed(1)}M`
+      )
+    )
+  );
+}
+
+function StrategyView() {
+  const cards = [
+    { title: 'Consortium Strategy', color: 'var(--dx)', content: React.createElement('div', null,
+      React.createElement('p', null, 'Most EU grants require transnational consortia. Building blocks:'),
+      React.createElement('ul', null,
+        React.createElement('li', null, React.createElement('strong', null, 'Spain:'), ' Research group (blue carbon quantification)'),
+        React.createElement('li', null, React.createElement('strong', null, 'Scotland/UK:'), ' Seawilding (seagrass restoration)'),
+        React.createElement('li', null, React.createElement('strong', null, 'Portugal:'), ' MARE, CCMAR/UAlg, IPMA'),
+        React.createElement('li', null, React.createElement('strong', null, 'International:'), ' Patagonia (corporate partner)')
+      ),
+      React.createElement('p', {style:{marginTop:'0.5rem'}}, React.createElement('strong', null, 'Key:'), ' Build one core consortium for OCEAN-01, OCEAN-03, and 2027 Blue Forests. MARE as lead, Ocean Alive as implementation partner.')
+    )},
+    { title: 'Sequencing Logic', color: 'var(--dx)', content: React.createElement('div', null,
+      React.createElement('p', null, React.createElement('strong', null, 'Phase 1 (Feb–Jun):'), ' Floresta Azul application. Position for JPI Oceans.'),
+      React.createElement('p', {style:{marginTop:'0.4rem'}}, React.createElement('strong', null, 'Phase 2 (Mar–Sep):'), ' OCEAN-03 + OCEAN-01. LIFE monitoring.'),
+      React.createElement('p', {style:{marginTop:'0.4rem'}}, React.createElement('strong', null, 'Phase 3 (Oct 2026–Sep 2027):'), ' Fieldwork → 2027 Blue Forests.'),
+      React.createElement('p', {style:{marginTop:'0.4rem'}}, React.createElement('strong', null, 'Ongoing:'), ' FA competitions for operational gaps.')
+    )},
+    { title: 'Immediate Actions – This Week', color: 'var(--coral)', content: React.createElement('ul', null,
+      React.createElement('li', null, 'Check JPI Oceans consortia seeking PT partners (deadline 2 March)'),
+      React.createElement('li', null, 'Download OCEAN-01 and OCEAN-03 call texts'),
+      React.createElement('li', null, 'Contact ApC re: Floresta Azul timeline'),
+      React.createElement('li', null, 'Confirm Ocean Alive ONGA status'),
+      React.createElement('li', null, 'Map 190+ ha data against OCEAN-01 requirements')
+    )},
+    { title: 'Verification & Methodology', color: 'var(--g)', content: React.createElement('ul', null,
+      React.createElement('li', null, React.createElement('strong', null, 'ESG Framework:'), ' Verification framework for seagrass carbon credits (Floresta Azul)'),
+      React.createElement('li', null, React.createElement('strong', null, 'Governance Model:'), ' Governance–Evidence–Verification = NRR compliance (OCEAN-01)'),
+      React.createElement('li', null, React.createElement('strong', null, 'Marine Governance:'), ' Policy architecture for OCEAN-03 co-management'),
+      React.createElement('li', null, React.createElement('strong', null, 'IP Protection:'), ' Methodology IP ownership from public funding')
+    )},
+    { title: 'Key Events 2026', color: 'var(--a)', content: React.createElement('ul', null,
+      React.createElement('li', null, React.createElement('strong', null, 'LIFE Marine Platform:'), ' 9–12 June 2026'),
+      React.createElement('li', null, React.createElement('strong', null, 'Financing for Nature Restoration:'), ' 2026 (TBC)'),
+      React.createElement('li', null, React.createElement('strong', null, 'EU Mission Brokerage:'), ' Periodic – check Mission Ocean Portal'),
+      React.createElement('li', null, React.createElement('strong', null, 'Interreg Atlantic:'), ' Monitor atlanticarea.eu')
+    )},
+    { title: 'Co-financing & Match Funding', color: 'var(--purple)', content: React.createElement('div', null,
+      React.createElement('ul', null,
+        React.createElement('li', null, React.createElement('strong', null, 'LIFE:'), ' 25% match. Source: FA, municipality, Patagonia?'),
+        React.createElement('li', null, React.createElement('strong', null, 'Interreg:'), ' 25% match. National/regional funds, in-kind.'),
+        React.createElement('li', null, React.createElement('strong', null, 'Horizon Europe:'), ' 100% funded – no match.'),
+        React.createElement('li', null, React.createElement('strong', null, 'Floresta Azul:'), ' Likely 100% public funding.')
+      ),
+      React.createElement('p', {style:{marginTop:'0.4rem'}}, 'Patagonia partnership could provide match for LIFE/Interreg – co-investment not philanthropy.')
+    )},
+    { title: '🏢 Corporate Ecosystem – Priority Targets', color: 'var(--coral)', content: React.createElement('div', null,
+      React.createElement('p', {style:{marginBottom:'0.4rem',fontWeight:600}}, 'Purina Ocean Restoration is #1 corporate opportunity:'),
+      React.createElement('ul', null,
+        React.createElement('li', null, React.createElement('strong', null, 'SeaForester (PT):'), ' Already Purina partner. Portugal-based. Seagrass + seaweed. Introduction pathway to Purina Europe.'),
+        React.createElement('li', null, React.createElement('strong', null, 'Purina Phase 2 (2026):'), ' Scaling proven solutions. Need: measurement frameworks, community engagement, verification. Ocean Alive HAS this.'),
+        React.createElement('li', null, React.createElement('strong', null, 'Seagrass Consortium:'), ' EU-wide coalition for large-scale seagrass restoration. Ocean Alive should join.'),
+        React.createElement('li', null, React.createElement('strong', null, 'Patagonia:'), ' Existing Blue Heart relationship. 1% for the Planet grants biannually.')
+      ),
+      React.createElement('p', {style:{marginTop:'0.5rem',fontSize:'0.75rem',fontStyle:'italic'}}, 'Also: Ocean 14 Capital (€201M blue economy fund) • WEF BCAP (blue carbon buyers: Apple, Salesforce) • 11th Hour Racing/Schmidt')
+    )},
+    { title: '🌍 ORCA Philanthropic Ecosystem', color: 'var(--purple)', content: React.createElement('div', null,
+      React.createElement('p', {style:{marginBottom:'0.4rem'}}, 'ORCA ($300M+) connects ALL major ocean funders. One relationship = many doors:'),
+      React.createElement('ul', null,
+        React.createElement('li', null, React.createElement('strong', null, 'Anchor funders:'), ' Oceankind, Builders Vision'),
+        React.createElement('li', null, React.createElement('strong', null, 'Coalition:'), ' Bloomberg, Packard ($480M), Ballmer, Grantham, Rockefeller Brothers, Brin Foundation, Rivian'),
+        React.createElement('li', null, React.createElement('strong', null, 'Lead grantees:'), ' Conservation International (BC+), Blue Ventures (FCF), TNC, Oceans North, Oceans 5'),
+        React.createElement('li', null, React.createElement('strong', null, 'Director:'), ' Alasdair Harris (Blue Ventures founder – understands community co-management)')
+      ),
+      React.createElement('p', {style:{marginTop:'0.5rem',fontWeight:600}}, 'Entry points: BC+ application → CI/TNC relationship → ORCA visibility → Packard/Bloomberg/Oak')
+    )}
+  ];
+
+  return React.createElement('div', {className:'notes-grid'},
+    cards.map((c,i) =>
+      React.createElement('div', {key:i, className:'note-card', style:{borderTopColor:c.color}},
+        React.createElement('div', {className:'note-card-title'}, c.title),
+        React.createElement('div', {className:'note-card-body'}, c.content)
+      )
+    )
+  );
+}
+
+function DetailPanel({grant:g, onClose, onStatus, onToggle}) {
+  const cd = fmtCD(g.deadline);
+  const done = g.actions.filter(a=>a.done).length;
+  const st = STATUSES.find(s=>s.key===g.status);
+
+  return React.createElement('div', {className:'detail-overlay', onClick:e=>{if(e.target===e.currentTarget)onClose();}},
+    React.createElement('div', {className:'detail-panel'},
+      React.createElement('div', {className:'detail-header'},
+        React.createElement('button', {className:'detail-close', onClick:onClose}, '×'),
+        React.createElement('div', {className:`detail-priority-badge badge-${g.priority}`}, `Priority ${g.priorityNum} – ${prioLabel(g.priority)}`),
+        React.createElement('div', {className:'detail-name'}, g.name),
+        React.createElement('div', {className:'detail-programme'}, `${g.programme} · ${g.ref}`)
+      ),
+      React.createElement('div', {className:'detail-body'},
+        React.createElement('div', {className:'detail-section'},
+          React.createElement('div', {className:'detail-section-title'}, 'Key Metrics'),
+          React.createElement('div', {className:'detail-grid'},
+            [['Budget',g.budget,'green'],['Per Project',g.perProject],['Deadline',g.deadlineLabel],['Countdown',cd.t,cd.c],['Duration',g.duration],['Co-financing',g.coFinancing]].map(([l,v,c],i) =>
+              React.createElement('div', {key:i, className:'detail-field'},
+                React.createElement('div', {className:'detail-field-label'}, l),
+                React.createElement('div', {className:`detail-field-value mono${c===cd.c?` countdown ${c}`:''}`, style:c==='green'?{color:'var(--g)'}:{}}, v)
+              )
+            )
+          )
+        ),
+        React.createElement('div', {className:'detail-section'},
+          React.createElement('div', {className:'detail-section-title'}, 'Status'),
+          React.createElement('div', {className:'status-select-row'},
+            STATUSES.map(s =>
+              React.createElement('button', {key:s.key, className:`status-btn ${g.status===s.key?'selected':''}`, onClick:()=>onStatus(g.id,s.key)}, s.label)
+            )
+          )
+        ),
+        React.createElement('div', {className:'detail-section'},
+          React.createElement('div', {className:'detail-section-title'}, 'Thematic Alignment'),
+          React.createElement('div', {style:{display:'flex',flexWrap:'wrap',gap:'0.3rem'}},
+            g.themes.map((t,i) => React.createElement('span', {key:i, style:{fontFamily:"'JetBrains Mono',monospace",fontSize:'0.62rem',background:'var(--sand)',padding:'0.2rem 0.5rem',borderRadius:'3px',color:'var(--sm)'}}, t))
+          )
+        ),
+        React.createElement('div', {className:'detail-section'},
+          React.createElement('div', {className:'detail-section-title'}, 'Fit Assessment'),
+          React.createElement('div', {className:'detail-text'}, g.fit)
+        ),
+        React.createElement('div', {className:'detail-section'},
+          React.createElement('div', {className:'detail-section-title'}, `Consortium (${g.consortiumMin})`),
+          g.consortium.length>0 ?
+            React.createElement('ul', {className:'checklist'},
+              g.consortium.map((c,i) =>
+                React.createElement('li', {key:i},
+                  React.createElement('div', {className:`check-icon ${i<2?'done':''}`}, i<2?'✓':''),
+                  React.createElement('span', null, c)
+                )
+              )
+            ) :
+            React.createElement('div', {className:'detail-text', style:{fontStyle:'italic',color:'var(--sm)'}}, `TBD. Minimum: ${g.consortiumMin}`)
+        ),
+        React.createElement('div', {className:'detail-section'},
+          React.createElement('div', {className:'detail-section-title'}, `Action Items (${done}/${g.actions.length})`),
+          React.createElement('ul', {className:'checklist'},
+            g.actions.map((a,i) =>
+              React.createElement('li', {key:i, style:{cursor:'pointer'}, onClick:()=>onToggle(g.id,i)},
+                React.createElement('div', {className:`check-icon ${a.done?'done':''}`}, a.done?'✓':''),
+                React.createElement('span', {style:a.done?{textDecoration:'line-through',color:'var(--sm)'}:{}}, a.text)
+              )
+            )
+          )
+        ),
+        g.notes && React.createElement('div', {className:'detail-section'},
+          React.createElement('div', {className:'detail-section-title'}, 'Notes'),
+          React.createElement('div', {className:'detail-text', style:{background:'white',padding:'0.8rem 1rem',borderRadius:'var(--radius)',boxShadow:'var(--shadow-sm)',borderLeft:'3px solid var(--sand)'}}, g.notes)
+        )
+      )
+    )
+  );
+}
+
+ReactDOM.render(React.createElement(App), document.getElementById('app'));
+</script>
+</body>
+</html>

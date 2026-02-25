@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Ocean Alive – Document Library. Working documents for the Sado Estuarine Park.">
+<title>Ocean Alive – Documents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#020E10;--ocean:#061A1E;--deep:#0A2428;--surface:#0E3038;
+--teal:#0097A7;--teal-l:#4DD0E1;--teal-glow:rgba(77,208,225,.08);
+--gold:#C9A962;--gold-l:#DFC88A;--gold-glow:rgba(201,169,98,.06);
+--coral:#E07C5A;--green:#4CAF50;--sea:#26A69A;
+--ink:#F0EBE0;--ink-m:#A0B5AD;--ink-s:#6A8078;--ink-xs:#4A5E58;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;overflow-x:hidden}
+::selection{background:rgba(0,151,167,.3)}
+.wrap{max-width:960px;margin:0 auto;padding:0 clamp(24px,5vw,72px)}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:90;padding:16px clamp(24px,5vw,72px);
+display:flex;justify-content:space-between;align-items:center;
+background:linear-gradient(180deg,rgba(2,14,16,.95) 0%,rgba(2,14,16,0) 100%);
+pointer-events:none}
+nav *{pointer-events:auto}
+.nav-brand{font-family:'Libre Baskerville',serif;font-size:14px;font-weight:700;color:var(--teal-l);
+letter-spacing:.02em;text-decoration:none}
+.nav-brand span{color:var(--ink-s);font-weight:400;font-size:12px;margin-left:6px}
+.nav-right{display:flex;gap:10px;align-items:center}
+.nav-link{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+color:var(--ink-s);text-decoration:none;padding:6px 10px;border-radius:3px;transition:all .2s}
+.nav-link:hover{color:var(--teal-l);background:rgba(0,151,167,.08)}
+.lang-btn{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;
+padding:5px 10px;border-radius:3px;border:1px solid rgba(0,151,167,.25);background:rgba(6,26,30,.7);
+color:var(--teal-l);cursor:pointer;transition:all .2s}
+.lang-btn:hover{border-color:var(--teal);background:var(--surface)}
+
+/* ── HEADER ── */
+.page-header{padding:120px 0 48px;border-bottom:1px solid rgba(0,151,167,.12)}
+.page-header h1{font-family:'Libre Baskerville',serif;font-size:clamp(28px,4vw,40px);font-weight:700;color:var(--ink);margin-bottom:8px}
+.page-header p{color:var(--ink-s);font-size:15px;max-width:600px}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;
+font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);text-decoration:none;
+margin-bottom:16px;transition:color .2s}
+.back-link:hover{color:var(--teal-l)}
+
+/* ── SECTIONS ── */
+.doc-section{padding:40px 0 16px}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;
+text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:'';flex:1;height:1px;background:rgba(201,169,98,.15)}
+
+/* ── DOCUMENT CARDS ── */
+.doc-list{display:flex;flex-direction:column;gap:2px}
+.doc-row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:16px;
+padding:14px 16px;border-radius:6px;text-decoration:none;transition:background .2s;cursor:pointer}
+.doc-row:hover{background:rgba(0,151,167,.06)}
+.doc-icon{width:44px;height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.04em;flex-shrink:0}
+.doc-icon.docx{background:rgba(41,98,255,.12);color:#5B8DEF}
+.doc-icon.xlsx{background:rgba(76,175,80,.12);color:#66BB6A}
+.doc-icon.pptx{background:rgba(224,124,90,.12);color:var(--coral)}
+.doc-icon.pdf{background:rgba(231,76,60,.12);color:#E74C3C}
+.doc-info{min-width:0}
+.doc-title{font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-desc{font-size:13px;color:var(--ink-s);line-height:1.5;margin-top:2px}
+.doc-meta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-xs);
+letter-spacing:.04em;white-space:nowrap;text-align:right}
+.doc-lang{display:inline-block;padding:2px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;
+font-size:9px;letter-spacing:.06em;margin-bottom:4px}
+.doc-lang.en{background:rgba(0,151,167,.1);color:var(--teal)}
+.doc-lang.pt{background:rgba(201,169,98,.1);color:var(--gold)}
+
+/* ── FOOTER ── */
+.page-footer{padding:48px 0 40px;margin-top:32px;border-top:1px solid rgba(0,151,167,.08);
+text-align:center;color:var(--ink-xs);font-size:12px}
+.page-footer a{color:var(--teal);text-decoration:none}
+
+@media(max-width:640px){
+  .doc-row{grid-template-columns:36px 1fr;gap:12px}
+  .doc-icon{width:36px;height:36px;font-size:8px}
+  .doc-meta{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+<a href="index.html" class="nav-brand">Ocean Alive <span>Sado Estuary</span></a>
+<div class="nav-right">
+<a href="index.html" class="nav-link" data-en="Home" data-pt="Início">Home</a>
+<a href="ocean-alive-site/dashboard.html" class="nav-link" data-en="Dashboard" data-pt="Painel">Dashboard</a>
+<a href="ocean-alive-site/grants.html" class="nav-link" data-en="Grants" data-pt="Financiamento">Grants</a>
+<button class="lang-btn" id="lang-btn" onclick="toggleLang()">PT</button>
+</div>
+</nav>
+
+<main class="wrap">
+
+<!-- HEADER -->
+<div class="page-header">
+<a href="index.html" class="back-link" data-en="← Back to site" data-pt="← Voltar ao site">← Back to site</a>
+<h1 data-en="Document Library" data-pt="Biblioteca de Documentos">Document Library</h1>
+<p data-en="Working documents for the Sado Estuarine Park project. Strategy, planning, sustainability reporting, and spatial governance." data-pt="Documentos de trabalho para o projeto do Parque Estuarino do Sado. Estratégia, planeamento, relatório de sustentabilidade e governança espacial.">Working documents for the Sado Estuarine Park project. Strategy, planning, sustainability reporting, and spatial governance.</p>
+</div>
+
+<!-- ═══ STRATEGY & GOVERNANCE ═══ -->
+<div class="doc-section">
+<div class="section-label" data-en="Strategy & Spatial Governance" data-pt="Estratégia e Governança Espacial">Strategy & Spatial Governance</div>
+<div class="doc-list">
+
+<a class="doc-row" href="docs/EN_OA_PAER_Briefing.docx">
+<div class="doc-icon docx">DOCX</div>
+<div class="doc-info">
+<div class="doc-title">PAER · Offshore Wind · Spatial Conflict Briefing</div>
+<div class="doc-desc" data-en="Why community seagrass data must enter the formal evidence base before the first project-level EIA is filed. Legal instruments, impact pathways, recommended actions." data-pt="Porquê os dados comunitários de ervas marinhas devem entrar na base de evidências formal antes da primeira AIA. Instrumentos jurídicos, vias de impacto, ações recomendadas.">Why community seagrass data must enter the formal evidence base before the first project-level EIA is filed. Legal instruments, impact pathways, recommended actions.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang en">EN</span><br>Feb 2026</div>
+</a>
+
+<a class="doc-row" href="docs/PT_OA_PAER_Briefing.docx">
+<div class="doc-icon docx">DOCX</div>
+<div class="doc-info">
+<div class="doc-title">PAER · Eólica Offshore · Briefing de Conflito Espacial</div>
+<div class="doc-desc" data-en="Portuguese translation of the PAER spatial conflict briefing for ICNF meetings, EIA consultations, and legal counsel." data-pt="Tradução portuguesa do briefing de conflito espacial do PAER para reuniões ICNF, consultas AIA e assessoria jurídica.">Portuguese translation of the PAER spatial conflict briefing for ICNF meetings, EIA consultations, and legal counsel.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang pt">PT</span><br>Fev 2026</div>
+</a>
+
+</div>
+</div>
+
+<!-- ═══ ESTUARINE PARK PLANNING ═══ -->
+<div class="doc-section">
+<div class="section-label" data-en="Estuarine Park Planning" data-pt="Planeamento do Parque Estuarino">Estuarine Park Planning</div>
+<div class="doc-list">
+
+<a class="doc-row" href="docs/EN_EP01_Development_Plan.docx">
+<div class="doc-icon docx">DOCX</div>
+<div class="doc-info">
+<div class="doc-title" data-en="EP.01 · Development Plan" data-pt="EP.01 · Plano de Desenvolvimento">EP.01 · Development Plan</div>
+<div class="doc-desc" data-en="Feasibility, governance model, risk assessment, and carrying capacity analysis for the Sado Estuarine Park." data-pt="Viabilidade, modelo de governança, avaliação de risco e análise de capacidade de carga para o Parque Estuarino do Sado.">Feasibility, governance model, risk assessment, and carrying capacity analysis for the Sado Estuarine Park.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang en">EN</span><br>2025</div>
+</a>
+
+<a class="doc-row" href="docs/EN_EP01_Funder_Map.xlsx">
+<div class="doc-icon xlsx">XLSX</div>
+<div class="doc-info">
+<div class="doc-title" data-en="EP.01 · Funder Map" data-pt="EP.01 · Mapa de Financiadores">EP.01 · Funder Map</div>
+<div class="doc-desc" data-en="20+ actions, 40+ funding prospects, and 11 partnership opportunities mapped to Estuarine Park milestones." data-pt="20+ ações, 40+ prospetos de financiamento e 11 parcerias mapeados para marcos do Parque Estuarino.">20+ actions, 40+ funding prospects, and 11 partnership opportunities mapped to Estuarine Park milestones.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang en">EN</span><br>2025</div>
+</a>
+
+<a class="doc-row" href="docs/PT_EP_sado_estuarine_park.pptx">
+<div class="doc-icon pptx">PPTX</div>
+<div class="doc-info">
+<div class="doc-title">Parque Estuarino do Sado · Apresentação</div>
+<div class="doc-desc" data-en="Slide deck: full concept, visitor experiences, Sentinela programme, 3-year revenue model." data-pt="Apresentação: conceito completo, experiências de visitantes, programa Sentinela, modelo de receita a 3 anos.">Slide deck: full concept, visitor experiences, Sentinela programme, 3-year revenue model.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang pt">PT</span><br>2025</div>
+</a>
+
+<a class="doc-row" href="ocean-alive-site/pdfs/parque_estuarino_do_sado.pdf">
+<div class="doc-icon pdf">PDF</div>
+<div class="doc-info">
+<div class="doc-title">Parque Estuarino do Sado</div>
+<div class="doc-desc" data-en="Full concept document: experiences, Sentinela programme, and 3-year revenue model." data-pt="Documento de conceito: experiências, programa Sentinela e modelo de receita a 3 anos.">Full concept document: experiences, Sentinela programme, and 3-year revenue model.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang pt">PT</span><br>PDF</div>
+</a>
+
+<a class="doc-row" href="ocean-alive-site/pdfs/plano_de_desenvolvimento.pdf">
+<div class="doc-icon pdf">PDF</div>
+<div class="doc-info">
+<div class="doc-title">Plano de Desenvolvimento</div>
+<div class="doc-desc" data-en="Feasibility study, governance structure, risk analysis, and carrying capacity." data-pt="Estudo de viabilidade, estrutura de governança, análise de risco e capacidade de carga.">Feasibility study, governance structure, risk analysis, and carrying capacity.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang pt">PT</span><br>PDF</div>
+</a>
+
+</div>
+</div>
+
+<!-- ═══ FUNDING & PARTNERSHIPS ═══ -->
+<div class="doc-section">
+<div class="section-label" data-en="Funding & Partnerships" data-pt="Financiamento e Parcerias">Funding & Partnerships</div>
+<div class="doc-list">
+
+<a class="doc-row" href="ocean-alive-site/pdfs/mapa_de_financiamento.pdf">
+<div class="doc-icon pdf">PDF</div>
+<div class="doc-info">
+<div class="doc-title">Mapa de Financiamento</div>
+<div class="doc-desc" data-en="20+ actions, 40+ funding prospects, and 11 partnership opportunities." data-pt="20+ ações, 40+ prospetos de financiamento e 11 oportunidades de parceria.">20+ actions, 40+ funding prospects, and 11 partnership opportunities.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang pt">PT</span><br>PDF</div>
+</a>
+
+<a class="doc-row" href="ocean-alive-site/pdfs/concursos_e_oportunidades.pdf">
+<div class="doc-icon pdf">PDF</div>
+<div class="doc-info">
+<div class="doc-title">Concursos e Oportunidades</div>
+<div class="doc-desc" data-en="16+ prizes, accelerators, and competition opportunities." data-pt="16+ prémios, aceleradores e oportunidades de concurso.">16+ prizes, accelerators, and competition opportunities.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang pt">PT</span><br>PDF</div>
+</a>
+
+<a class="doc-row" href="ocean-alive-site/pdfs/oportunidades_parcerias_jovens.pdf">
+<div class="doc-icon pdf">PDF</div>
+<div class="doc-info">
+<div class="doc-title">Parcerias Juvenis</div>
+<div class="doc-desc" data-en="Youth partnership opportunities: EarthEcho, Bow Seat, Global CoLab, YRE." data-pt="Oportunidades de parcerias para jovens: EarthEcho, Bow Seat, Global CoLab, YRE.">Youth partnership opportunities: EarthEcho, Bow Seat, Global CoLab, YRE.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang pt">PT</span><br>PDF</div>
+</a>
+
+</div>
+</div>
+
+<!-- ═══ SUSTAINABILITY REPORTING ═══ -->
+<div class="doc-section">
+<div class="section-label" data-en="Sustainability Reporting" data-pt="Relatório de Sustentabilidade">Sustainability Reporting</div>
+<div class="doc-list">
+
+<a class="doc-row" href="docs/EN_OA_Sustainability_Report_2025.docx">
+<div class="doc-icon docx">DOCX</div>
+<div class="doc-info">
+<div class="doc-title" data-en="Sustainability Report 2025 (ESRS VSME)" data-pt="Relatório de Sustentabilidade 2025 (ESRS VSME)">Sustainability Report 2025 (ESRS VSME)</div>
+<div class="doc-desc" data-en="ESRS VSME-aligned sustainability report template: environment, social, governance, and 3 data annexes." data-pt="Modelo de relatório de sustentabilidade alinhado com ESRS VSME: ambiente, social, governança e 3 anexos de dados.">ESRS VSME-aligned sustainability report template: environment, social, governance, and 3 data annexes.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang en">EN</span><br>2025</div>
+</a>
+
+<a class="doc-row" href="docs/PT_OA_Relatorio_Sustentabilidade_2025.docx">
+<div class="doc-icon docx">DOCX</div>
+<div class="doc-info">
+<div class="doc-title">Relatório de Sustentabilidade 2025 (ESRS VSME)</div>
+<div class="doc-desc" data-en="Portuguese translation of the ESRS VSME sustainability report for national compliance and stakeholder communication." data-pt="Tradução portuguesa do relatório de sustentabilidade ESRS VSME para conformidade nacional e comunicação com partes interessadas.">Portuguese translation of the ESRS VSME sustainability report for national compliance and stakeholder communication.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang pt">PT</span><br>2025</div>
+</a>
+
+</div>
+</div>
+
+<!-- ═══ COLLABORATION ═══ -->
+<div class="doc-section">
+<div class="section-label" data-en="Collaboration Proposals" data-pt="Propostas de Colaboração">Collaboration Proposals</div>
+<div class="doc-list">
+
+<a class="doc-row" href="ocean-alive-site/proposta.html">
+<div class="doc-icon docx">HTML</div>
+<div class="doc-info">
+<div class="doc-title" data-en="Collaboration Proposal · Ocean Alive × The Watershed" data-pt="Proposta de Colaboração · Ocean Alive × The Watershed">Collaboration Proposal · Ocean Alive × The Watershed</div>
+<div class="doc-desc" data-en="Partnership framework: community science verification, carbon market integration, and spatial governance." data-pt="Quadro de parceria: verificação de ciência comunitária, integração no mercado de carbono e governança espacial.">Partnership framework: community science verification, carbon market integration, and spatial governance.</div>
+</div>
+<div class="doc-meta"><span class="doc-lang pt">PT</span><br>Web</div>
+</a>
+
+</div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+<p>Ocean Alive · Cooperativa para a Educação Criativa Marinha CRL · Setúbal, Portugal</p>
+<p style="margin-top:6px"><a href="https://ocean-alive.org" target="_blank">ocean-alive.org</a> · EU Natura 2000 Award 2024</p>
+</footer>
+
+<script>
+let lang='en';
+function toggleLang(){
+  lang=lang==='en'?'pt':'en';
+  document.getElementById('lang-btn').textContent=lang==='en'?'PT':'EN';
+  document.querySelectorAll('[data-en][data-pt]').forEach(el=>{
+    const v=el.getAttribute('data-'+lang);
+    if(v.includes('<'))el.innerHTML=v; else el.textContent=v;
+  });
+}
+</script>
+</body>
+</html>

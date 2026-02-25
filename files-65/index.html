@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ocean Alive – Sado Estuarine Park</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #041A1A;
+  --sand: #0A242A;
+  --pnl: #0D2E32;
+  --pnl-h: #103538;
+  --bdr: rgba(0,151,167,.18);
+  --dx: #0097A7;
+  --dx-l: #4DD0E1;
+  --gold: #C9A962;
+  --gl: #DFC88A;
+  --coral: #E07C5A;
+  --sea: #00796B;
+  --sea-l: #26A69A;
+  --ink: #F2EDE4;
+  --il: #A0B5AD;
+  --sm: #7A8E86;
+  --mt: #556B6B;
+  --g: #4CAF50;
+  --a: #FF9800;
+  --r: #EF5350;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Source Sans 3',sans-serif; background:var(--bg); color:var(--ink); min-height:100vh; }
+
+.hero {
+  position: relative;
+  padding: 80px 40px 60px;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--bdr);
+}
+.hero::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; bottom:0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(0,151,167,.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 80%, rgba(201,169,98,.05) 0%, transparent 50%);
+}
+.hero-content { position:relative; z-index:1; max-width:800px; margin:0 auto; }
+.hero-tag {
+  font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--sea-l); margin-bottom:16px;
+  background:rgba(0,121,107,.1); display:inline-block; padding:4px 14px;
+  border-radius:3px; border:1px solid rgba(0,121,107,.25);
+}
+.hero h1 {
+  font-family:'Playfair Display',serif; font-size:clamp(28px,5vw,48px);
+  font-weight:700; color:var(--ink); line-height:1.2; margin-bottom:8px;
+}
+.hero h1 span { color:var(--dx-l); }
+.hero-sub {
+  font-family:'Playfair Display',serif; font-size:16px; font-style:italic;
+  color:var(--il); margin-bottom:32px; max-width:600px; margin-left:auto; margin-right:auto;
+}
+.hero-stats {
+  display:flex; gap:40px; justify-content:center; flex-wrap:wrap;
+  margin-bottom:32px;
+}
+.hero-stat { text-align:center; }
+.hero-stat-val {
+  font-family:'Playfair Display',serif; font-size:28px; font-weight:700;
+}
+.hero-stat-label {
+  font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--sm); margin-top:2px;
+}
+
+.lang-toggle {
+  position:absolute; top:20px; right:20px; z-index:10;
+  font-family:'JetBrains Mono',monospace; font-size:10px; padding:4px 10px;
+  border-radius:3px; border:1px solid var(--bdr); background:var(--sand);
+  color:var(--dx-l); cursor:pointer; letter-spacing:.1em;
+}
+.lang-toggle:hover { background:var(--pnl-h); }
+
+.nav-grid {
+  max-width:1100px; margin:0 auto; padding:40px 24px 60px;
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:20px;
+}
+
+.nav-card {
+  background:var(--pnl); border:1px solid var(--bdr); border-radius:8px;
+  padding:28px 24px; transition:all .2s ease; cursor:pointer;
+  text-decoration:none; color:var(--ink); position:relative; overflow:hidden;
+}
+.nav-card:hover { border-color:var(--dx); transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,151,167,.12); }
+.nav-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+}
+.nav-card.dashboard::before { background:var(--dx-l); }
+.nav-card.grants::before { background:var(--gold); }
+.nav-card.proposal::before { background:var(--sea-l); }
+.nav-card.pdfs::before { background:var(--coral); }
+
+.nav-card-icon {
+  font-size:24px; margin-bottom:12px;
+}
+.nav-card h2 {
+  font-family:'Playfair Display',serif; font-size:18px; font-weight:600;
+  margin-bottom:6px;
+}
+.nav-card p {
+  font-size:13px; color:var(--il); line-height:1.5; margin-bottom:12px;
+}
+.nav-card-tags {
+  display:flex; gap:6px; flex-wrap:wrap;
+}
+.nav-card-tag {
+  font-family:'JetBrains Mono',monospace; font-size:7.5px; letter-spacing:.06em;
+  text-transform:uppercase; padding:2px 6px; border-radius:2px;
+}
+.tag-teal { background:rgba(0,151,167,.1); color:var(--dx-l); border:1px solid rgba(0,151,167,.25); }
+.tag-gold { background:rgba(201,169,98,.1); color:var(--gl); border:1px solid rgba(201,169,98,.25); }
+.tag-green { background:rgba(76,175,80,.1); color:var(--g); border:1px solid rgba(76,175,80,.25); }
+.tag-coral { background:rgba(224,124,90,.1); color:var(--coral); border:1px solid rgba(224,124,90,.25); }
+.tag-sea { background:rgba(0,121,107,.1); color:var(--sea-l); border:1px solid rgba(0,121,107,.25); }
+
+.doc-section {
+  max-width:1100px; margin:0 auto; padding:0 24px 60px;
+}
+.doc-section-title {
+  font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--sm); margin-bottom:16px;
+  padding-bottom:8px; border-bottom:1px solid var(--bdr);
+}
+.doc-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:12px;
+}
+.doc-card {
+  background:var(--sand); border:1px solid rgba(0,151,167,.08); border-radius:6px;
+  padding:16px; text-decoration:none; color:var(--ink); transition:all .15s ease;
+}
+.doc-card:hover { border-color:var(--bdr); background:var(--pnl); }
+.doc-card h3 {
+  font-size:13px; font-weight:600; margin-bottom:4px;
+}
+.doc-card p {
+  font-size:11px; color:var(--sm); line-height:1.4;
+}
+.doc-card .doc-type {
+  font-family:'JetBrains Mono',monospace; font-size:8px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--dx-l); margin-bottom:6px;
+}
+
+footer {
+  text-align:center; padding:30px 24px; border-top:1px solid var(--bdr);
+  font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--mt);
+  letter-spacing:.05em; line-height:1.8;
+}
+footer a { color:var(--sea-l); text-decoration:none; }
+footer a:hover { color:var(--dx-l); }
+
+@media(max-width:680px){
+  .hero { padding:50px 20px 40px; }
+  .hero-stats { gap:24px; }
+  .nav-grid { grid-template-columns:1fr; padding:24px 16px 40px; }
+}
+</style>
+</head>
+<body>
+
+<button class="lang-toggle" onclick="toggleLang()" id="lang-btn">PT 🇵🇹</button>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">OCEAN ALIVE · ESTUÁRIO DO SADO</div>
+    <h1 data-en="Sado <span>Estuarine Park</span>" data-pt="Parque <span>Estuarino</span> do Sado">Sado <span>Estuarine Park</span></h1>
+    <div class="hero-sub" data-en="Turning conservation data into visitor experience, community income, and verified ecological outcomes" data-pt="Transformar dados de conservação em experiência de visitante, rendimento comunitário e resultados ecológicos verificados">Turning conservation data into visitor experience, community income, and verified ecological outcomes</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-val" style="color:var(--dx-l)">190 ha</div><div class="hero-stat-label" data-en="Seagrass mapped" data-pt="Ervas marinhas mapeadas">Seagrass mapped</div></div>
+      <div class="hero-stat"><div class="hero-stat-val" style="color:var(--gold)">18</div><div class="hero-stat-label">Guardiãs do Mar</div></div>
+      <div class="hero-stat"><div class="hero-stat-val" style="color:var(--sea-l)">4 yrs</div><div class="hero-stat-label" data-en="Continuous data" data-pt="Dados contínuos">Continuous data</div></div>
+      <div class="hero-stat"><div class="hero-stat-val" style="color:var(--coral)">7</div><div class="hero-stat-label" data-en="SDGs aligned" data-pt="ODS alinhados">SDGs aligned</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-grid">
+  <a href="dashboard.html" class="nav-card dashboard">
+    <div class="nav-card-icon">◉</div>
+    <h2 data-en="Verification Dashboard" data-pt="Painel de Verificação">Verification Dashboard</h2>
+    <p data-en="Ecosystem monitoring, governance tracking, community voice, spatial conflicts, regulatory reporting, and Estuarine Park planning – all in one live interface." data-pt="Monitorização do ecossistema, rastreamento de governança, voz comunitária, conflitos espaciais, relatórios regulatórios e planeamento do Parque Estuarino.">Ecosystem monitoring, governance tracking, community voice, spatial conflicts, regulatory reporting, and Estuarine Park planning – all in one live interface.</p>
+    <div class="nav-card-tags">
+      <span class="nav-card-tag tag-teal" data-en="LIVE DATA" data-pt="DADOS EM TEMPO REAL">LIVE DATA</span>
+      <span class="nav-card-tag tag-green">NATURA 2000</span>
+      <span class="nav-card-tag tag-gold">ESTUARINE PARK</span>
+      <span class="nav-card-tag tag-sea">PT / EN</span>
+    </div>
+  </a>
+
+  <a href="grants.html" class="nav-card grants">
+    <div class="nav-card-icon">◈</div>
+    <h2 data-en="Grant Calendar & Funding" data-pt="Calendário de Subvenções">Grant Calendar & Funding</h2>
+    <p data-en="30 funding opportunities tracked across EU, national, international, corporate, and foundation sources. Timeline, pipeline, action tracker, budget map, and strategy notes." data-pt="30 oportunidades de financiamento rastreadas em fontes europeias, nacionais, internacionais, corporativas e fundações. Cronograma, pipeline, acções, orçamento e estratégia.">30 funding opportunities tracked across EU, national, international, corporate, and foundation sources. Timeline, pipeline, action tracker, budget map, and strategy notes.</p>
+    <div class="nav-card-tags">
+      <span class="nav-card-tag tag-gold" data-en="30 GRANTS" data-pt="30 SUBVENÇÕES">30 GRANTS</span>
+      <span class="nav-card-tag tag-teal">€4M+ PIPELINE</span>
+      <span class="nav-card-tag tag-sea">PT / EN</span>
+    </div>
+  </a>
+
+  <a href="proposta.html" class="nav-card proposal">
+    <div class="nav-card-icon">◊</div>
+    <h2 data-en="Collaboration Proposal" data-pt="Proposta de Colaboração">Collaboration Proposal</h2>
+    <p data-en="Full collaboration proposal in Portuguese, detailing the partnership framework, legal context, fieldwork plan, and community engagement strategy for the Sado Estuary." data-pt="Proposta completa de colaboração em português, detalhando o quadro de parceria, contexto legal, plano de trabalho de campo e estratégia de envolvimento comunitário.">Full collaboration proposal in Portuguese, detailing the partnership framework, legal context, fieldwork plan, and community engagement strategy for the Sado Estuary.</p>
+    <div class="nav-card-tags">
+      <span class="nav-card-tag tag-sea">PORTUGUÊS</span>
+      <span class="nav-card-tag tag-green" data-en="LEGAL FRAMEWORK" data-pt="QUADRO LEGAL">LEGAL FRAMEWORK</span>
+    </div>
+  </a>
+
+  <a href="#docs" class="nav-card pdfs" onclick="event.preventDefault();document.getElementById('docs').scrollIntoView({behavior:'smooth'})">
+    <div class="nav-card-icon">▤</div>
+    <h2 data-en="Documents & PDFs" data-pt="Documentos & PDFs">Documents & PDFs</h2>
+    <p data-en="Portuguese concept document, development plan, funder map, competition tracker, and youth partnership guide – all downloadable." data-pt="Documento conceptual, plano de desenvolvimento, mapa de financiamento, concursos e parcerias juvenis – todos descarregáveis.">Portuguese concept document, development plan, funder map, competition tracker, and youth partnership guide – all downloadable.</p>
+    <div class="nav-card-tags">
+      <span class="nav-card-tag tag-coral">5 PDFs</span>
+      <span class="nav-card-tag tag-sea">PORTUGUÊS</span>
+    </div>
+  </a>
+</div>
+
+<div class="doc-section" id="docs">
+  <div class="doc-section-title" data-en="Downloadable Documents" data-pt="Documentos Descarregáveis">Downloadable Documents</div>
+  <div class="doc-grid">
+    <a href="pdfs/parque_estuarino_do_sado.pdf" class="doc-card">
+      <div class="doc-type">PDF · PT</div>
+      <h3>Parque Estuarino do Sado</h3>
+      <p data-en="Full concept document. 10 sections covering problem, solution, experiences, Sentinela, revenue, projections, infrastructure, impact, scalability." data-pt="Documento conceptual completo. 10 secções: problema, solução, experiências, Sentinela, receita, projeções, infraestrutura, impacto, escalabilidade.">Full concept document. 10 sections covering problem, solution, experiences, Sentinela, revenue, projections, infrastructure, impact, scalability.</p>
+    </a>
+    <a href="pdfs/plano_de_desenvolvimento.pdf" class="doc-card">
+      <div class="doc-type">PDF · PT</div>
+      <h3>Plano de Desenvolvimento</h3>
+      <p data-en="Feasibility study. Governance options, risk register, carrying capacity, seasonal programming, IP, food, accessibility, gender, succession." data-pt="Estudo de viabilidade. Governança, risco, capacidade de carga, programação sazonal, PI, alimentação, acessibilidade, género, sucessão.">Feasibility study. Governance options, risk register, carrying capacity, seasonal programming, IP, food, accessibility, gender, succession.</p>
+    </a>
+    <a href="pdfs/mapa_de_financiamento.pdf" class="doc-card">
+      <div class="doc-type">PDF · PT</div>
+      <h3>Mapa de Financiamento</h3>
+      <p data-en="Funder map. 20+ actions, 40+ funding prospects, 7 categories, 11 nonprofit partnerships." data-pt="Mapa de financiamento. 20+ acções, 40+ prospetos, 7 categorias, 11 parcerias sem fins lucrativos.">Funder map. 20+ actions, 40+ funding prospects, 7 categories, 11 nonprofit partnerships.</p>
+    </a>
+    <a href="pdfs/concursos_e_oportunidades.pdf" class="doc-card">
+      <div class="doc-type">PDF · PT</div>
+      <h3>Concursos e Oportunidades</h3>
+      <p data-en="Competition tracker. 16+ prizes and accelerators including Hult ($1M), EcoVenture, MIT CEP, Halcyon, Echoing Green." data-pt="Rastreador de competições. 16+ prémios e aceleradores incluindo Hult ($1M), EcoVenture, MIT CEP, Halcyon, Echoing Green.">Competition tracker. 16+ prizes and accelerators including Hult ($1M), EcoVenture, MIT CEP, Halcyon, Echoing Green.</p>
+    </a>
+    <a href="pdfs/oportunidades_parcerias_jovens.pdf" class="doc-card">
+      <div class="doc-type">PDF · PT</div>
+      <h3>Parcerias Juvenis</h3>
+      <p data-en="Youth partnership guide. EarthEcho, Global CoLab, Bow Seat, Sea Youth Rise Up, YRE, One Earth, Earth Prize." data-pt="Guia de parcerias juvenis. EarthEcho, Global CoLab, Bow Seat, Sea Youth Rise Up, YRE, One Earth, Earth Prize.">Youth partnership guide. EarthEcho, Global CoLab, Bow Seat, Sea Youth Rise Up, YRE, One Earth, Earth Prize.</p>
+    </a>
+  </div>
+</div>
+
+<footer>
+  Ocean Alive · Estuário do Sado · Natura 2000 PTCON0011<br>
+  <a href="https://oceanalive.org" target="_blank">oceanalive.org</a> · EU Natura 2000 Award 2024<br>
+  Site generated February 2026 · Documents for discussion with community and partners
+</footer>
+
+<script>
+let currentLang='en';
+function toggleLang(){
+  currentLang=currentLang==='en'?'pt':'en';
+  document.getElementById('lang-btn').textContent=currentLang==='en'?'PT 🇵🇹':'EN 🇬🇧';
+  document.querySelectorAll('[data-en][data-pt]').forEach(el=>{
+    if(el.tagName==='H1') el.innerHTML=el.getAttribute('data-'+currentLang);
+    else el.textContent=el.getAttribute('data-'+currentLang);
+  });
+}
+</script>
+</body>
+</html>
